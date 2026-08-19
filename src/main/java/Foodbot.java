@@ -98,14 +98,14 @@ public class Foodbot {
     public void markComplete(String taskNoStr) throws FoodException{
         int taskNo;
         try {
-            taskNo = Integer.parseInt(taskNoStr);
+            taskNo = Integer.parseInt(taskNoStr) - 1;
         } catch (NumberFormatException e) {
             throw new FoodException("mark has to be followed by an integer");
         }
         if (taskNo >= this.list.size() || taskNo < 0) {
             throw new FoodException("hey that's not a valid index to mark complete");
         }
-        Task task  = this.list.get(taskNo - 1);
+        Task task  = this.list.get(taskNo);
         task.markComplete();
         System.out.println(String.format("%s\n%s", Foodbot.completeMessage, task));
     }
@@ -113,14 +113,14 @@ public class Foodbot {
     public void markIncomplete(String taskNoStr) throws FoodException{
         int taskNo;
         try {
-            taskNo = Integer.parseInt(taskNoStr);
+            taskNo = Integer.parseInt(taskNoStr) - 1;
         } catch (NumberFormatException e) {
             throw new FoodException("unmark has to be followed by an integer");
         }
         if (taskNo >= this.list.size() || taskNo < 0) {
             throw new FoodException("hey that's not a valid index to mark incomplete");
         }
-        Task task  = this.list.get(taskNo - 1);
+        Task task  = this.list.get(taskNo);
         task.markIncomplete();
         System.out.println(String.format("%s\n%s", Foodbot.incompleteMessage, task));
     }
