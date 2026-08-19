@@ -9,7 +9,7 @@ public class Food {
             String input = userIput.nextLine();
             boolean cont = true;
             try {
-                cont = food.addInput(input);
+                food.addInput(input);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }

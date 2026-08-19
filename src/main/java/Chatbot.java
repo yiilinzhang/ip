@@ -30,44 +30,35 @@ public class Chatbot {
 
         // List out all tasks
         if (input.equals("list")) {
-            System.out.println(Chatbot.listTaskMessage);
-            for (int i = 0; i < list.size(); i ++) {
-                System.out.println(String.format("%d. %s", i + 1, this.list.get(i)));
-            }
+           listTasks();
             return true;
         }
 
-        // Check if user want to mark tasks as complete/ incomplete
         String[] parts = input.trim().split(" ");
+
+        // Check if user want to mark tasks as complete/ incomplete
         if (parts.length == 2 && parts[0].equals("mark")) {
-            // TODO: Add error catching
-            int taskNo = Integer.parseInt(parts[1]);
-            Task task  = this.list.get(taskNo - 1);
-            task.markComplete();
-            System.out.println(String.format("%s\n%s", Chatbot.completeMessage, task));
+            this.markComplete(parts[1]);
             return true;
         }
         if (parts.length == 2 && parts[0].equals("unmark")) {
-            // TODO: Add error catching
-            int taskNo = Integer.parseInt(parts[1]);
-            Task task  = this.list.get(taskNo - 1);
-            task.markIncomplete();
-            System.out.println(String.format("%s\n%s", Chatbot.incompleteMessage, task));
+            this.markIncomplete(parts[1]);
             return true;
         }
 
+        // Add tasks
         if (parts[0].equals("todo") || parts[0].equals("deadline") || parts[0].equals("event")) {
             this.addTask(input, parts);
             return true;
         }
-        if (parts[0].equals("delete")) {
-            Task task = this.list.get(Integer.parseInt(parts[1]) - 1);
-            this.list.remove(task);
-            System.out.println(String.format("Noted. I've removed this task: \n%s\nNow you have %d tasks in the list.",
-                    task,
-                    this.list.size()));
+
+        // Delete tasks
+        if (parts.length == 2 && parts[0].equals("delete")) {
+            deleteTask(parts[1]);
             return true;
         }
+
+        // None of the above
         throw new FoodException("OOPS!!! I'm sorry, but I don't know what that means :-(");
     }
 
@@ -85,5 +76,59 @@ public class Chatbot {
         this.list.add(addedTask);
         System.out.println(String.format("%s\n%s\nNow you have %d tasks in the list.",
                 Chatbot.addTaskMessage, addedTask, this.list.size()));
+    }
+
+    public void deleteTask(String taskNo) throws FoodException{
+        int index;
+        try {
+            index = Integer.parseInt(taskNo) - 1;
+        } catch (NumberFormatException e) {
+            throw new FoodException("delete has to be followed by a number");
+        }
+        if (index >= this.list.size()) {
+            throw new FoodException("hey that's not a valid index to delete");
+        }
+        Task task = this.list.get(index);
+        this.list.remove(task);
+        System.out.println(String.format("Noted. I've removed this task: \n%s\nNow you have %d tasks in the list.",
+                task,
+                this.list.size()));
+    }
+
+    public void markComplete(String taskNoStr) throws FoodException{
+        int taskNo;
+        try {
+            taskNo = Integer.parseInt(taskNoStr);
+        } catch (NumberFormatException e) {
+            throw new FoodException("mark has to be followed by an integer");
+        }
+        if (taskNo >= this.list.size()) {
+            throw new FoodException("hey that's not a valid index to mark complete");
+        }
+        Task task  = this.list.get(taskNo - 1);
+        task.markComplete();
+        System.out.println(String.format("%s\n%s", Chatbot.completeMessage, task));
+    }
+
+    public void markIncomplete(String taskNoStr) throws FoodException{
+        int taskNo;
+        try {
+            taskNo = Integer.parseInt(taskNoStr);
+        } catch (NumberFormatException e) {
+            throw new FoodException("unmark has to be followed by an integer");
+        }
+        if (taskNo >= this.list.size()) {
+            throw new FoodException("hey that's not a valid index to mark incomplete");
+        }
+        Task task  = this.list.get(taskNo - 1);
+        task.markIncomplete();
+        System.out.println(String.format("%s\n%s", Chatbot.incompleteMessage, task));
+    }
+
+    public void listTasks() {
+        System.out.println(Chatbot.listTaskMessage);
+        for (int i = 0; i < list.size(); i ++) {
+            System.out.println(String.format("%d. %s", i + 1, this.list.get(i)));
+        }
     }
 }
