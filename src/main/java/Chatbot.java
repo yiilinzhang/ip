@@ -55,24 +55,26 @@ public class Chatbot {
             System.out.println(String.format("%s\n%s", Chatbot.incompleteMessage, task));
             return true;
         }
+        this.addTask(input, parts);
+        return true;
+    }
 
+    public Task addTask(String input, String[] parts) throws FoodException{
         Task addedTask = null;
-            if (parts[0].equals("todo")) {
-                addedTask = new ToDos(input);
-            }
-            if (parts[0].equals("deadline")) {
-                addedTask = new Deadlines(input);
-            }
-            if (parts[0].equals("event")) {
-                addedTask = new Events(input);
-            }
+        if (parts[0].equals("todo")) {
+            addedTask = new ToDos(input);
+        }
+        if (parts[0].equals("deadline")) {
+            addedTask = new Deadlines(input);
+        }
+        if (parts[0].equals("event")) {
+            addedTask = new Events(input);
+        }
         if (addedTask == null) {
             throw new FoodException("OOPS!!! I'm sorry, but I don't know what that means :-(");
-
         }
-        list.add(addedTask);
+        this.list.add(addedTask);
         System.out.println(String.format("%s\n%s\nNow you have %d tasks in the list.",
                 Chatbot.addTaskMessage, addedTask, this.list.size()));
-        return true;
     }
 }
