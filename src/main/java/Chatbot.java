@@ -55,11 +55,23 @@ public class Chatbot {
             System.out.println(String.format("%s\n%s", Chatbot.incompleteMessage, task));
             return true;
         }
-        this.addTask(input, parts);
-        return true;
+
+        if (parts[0].equals("todo") || parts[0].equals("deadline") || parts[0].equals("event")) {
+            this.addTask(input, parts);
+            return true;
+        }
+        if (parts[0].equals("delete")) {
+            Task task = this.list.get(Integer.parseInt(parts[1]) - 1);
+            this.list.remove(task);
+            System.out.println(String.format("Noted. I've removed this task: \n%s\nNow you have %d tasks in the list.",
+                    task,
+                    this.list.size()));
+            return true;
+        }
+        throw new FoodException("OOPS!!! I'm sorry, but I don't know what that means :-(");
     }
 
-    public Task addTask(String input, String[] parts) throws FoodException{
+    public void addTask(String input, String[] parts) throws FoodException{
         Task addedTask = null;
         if (parts[0].equals("todo")) {
             addedTask = new ToDos(input);
@@ -69,9 +81,6 @@ public class Chatbot {
         }
         if (parts[0].equals("event")) {
             addedTask = new Events(input);
-        }
-        if (addedTask == null) {
-            throw new FoodException("OOPS!!! I'm sorry, but I don't know what that means :-(");
         }
         this.list.add(addedTask);
         System.out.println(String.format("%s\n%s\nNow you have %d tasks in the list.",
