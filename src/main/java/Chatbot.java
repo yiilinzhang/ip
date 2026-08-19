@@ -2,34 +2,60 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Chatbot {
-    private List<String> list = new ArrayList<>();
+    private List<Task> list = new ArrayList<>();
+    private static final String completeMessage = "Nice! I've marked this task as done";
+    private static final String incompleteMessage = "OK, I've marked this task as not done yet:";
+    private static final String listTaskMessage = "Here are the tasks in your list:";
+    private static final String exitMessage = "Bye. Hope to see you soon!";
+    private static final String greetMessage = "Hello! I am Food.\nWhat can I do for you?";
+    private static final String bannerMessage = "  _______  _______  _______  ______  \n"
+            + " |   ____||   __  ||   __  ||      \\ \n"
+            + " |  |___  |  |  | ||  |  | ||  ---  |\n"
+            + " |   ___| |  |  | ||  |  | ||  |  | |\n"
+            + " |  |     |  |__| ||  |__| ||  ---  |\n"
+            + " |__|     |_______||_______||______/ \n";
+
 
     public Chatbot() {
-        String banner = "  _______  _______  _______  ______  \n"
-                + " |   ____||   __  ||   __  ||      \\ \n"
-                + " |  |___  |  |  | ||  |  | ||  ---  |\n"
-                + " |   ___| |  |  | ||  |  | ||  |  | |\n"
-                + " |  |     |  |__| ||  |__| ||  ---  |\n"
-                + " |__|     |_______||_______||______/ \n";
-        String greet = "Hello! I am Food.\nWhat can I do for you?";
-        System.out.println(banner);
-        System.out.println(greet);
+        System.out.println(String.format("%s\n%s", Chatbot.bannerMessage, Chatbot.greetMessage));
     }
 
     public boolean addInput(String input) {
-        String exit = "Bye. Hope to see you soon!";
+        // When user exits chatbot
         if (input.equals("LET ME OUT!")) {
-            System.out.println(exit);
+            System.out.println(Chatbot.exitMessage);
             return false;
         }
+
+        // List out all tasks
         if (input.equals("list")) {
+            System.out.println(Chatbot.listTaskMessage);
             for (int i = 0; i < list.size(); i ++) {
-                System.out.println(i + 1 + "." + list.get(i));
+                System.out.println(String.format("%d. %s", i + 1, this.list.get(i)));
             }
-        } else {
-            list.add(input);
-            System.out.println("added: " + input);
+            return true;
         }
+
+        // Check if user want to mark tasks as complete/ incomplete
+        String[] parts = input.trim().split(" ");
+        if (parts.length == 2 && parts[0].equals("mark")) {
+            // TODO: Add error catching
+            int taskNo = Integer.parseInt(parts[1]);
+            Task task  = this.list.get(taskNo - 1);
+            task.markComplete();
+            System.out.println(String.format("%s\n%s", Chatbot.completeMessage, task));
+            return true;
+        }
+        if (parts.length == 2 && parts[0].equals("unmark")) {
+            // TODO: Add error catching
+            int taskNo = Integer.parseInt(parts[1]);
+            Task task  = this.list.get(taskNo - 1);
+            task.markIncomplete();
+            System.out.println(String.format("%s\n%s", Chatbot.incompleteMessage, task));
+            return true;
+        }
+        list.add(new Task(input));
+        System.out.println("added: " + input);
         return true;
     }
 }
