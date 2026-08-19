@@ -21,7 +21,7 @@ public class Chatbot {
         System.out.println(String.format("%s\n%s", Chatbot.bannerMessage, Chatbot.greetMessage));
     }
 
-    public boolean addInput(String input) {
+    public boolean addInput(String input) throws FoodException {
         // When user exits chatbot
         if (input.equals("LET ME OUT!")) {
             System.out.println(Chatbot.exitMessage);
@@ -57,14 +57,18 @@ public class Chatbot {
         }
 
         Task addedTask = null;
-        if (parts[0].equals("todo")) {
-            addedTask = new ToDos(input);
-        }
-        if (parts[0].equals("deadline")) {
-            addedTask = new Deadlines(input);
-        }
-        if (parts[0].equals("event")) {
-            addedTask = new Events(input);
+            if (parts[0].equals("todo")) {
+                addedTask = new ToDos(input);
+            }
+            if (parts[0].equals("deadline")) {
+                addedTask = new Deadlines(input);
+            }
+            if (parts[0].equals("event")) {
+                addedTask = new Events(input);
+            }
+        if (addedTask == null) {
+            throw new FoodException("OOPS!!! I'm sorry, but I don't know what that means :-(");
+
         }
         list.add(addedTask);
         System.out.println(String.format("%s\n%s\nNow you have %d tasks in the list.",

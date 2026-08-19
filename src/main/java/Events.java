@@ -6,10 +6,12 @@ public class Events extends Task{
     private final String from;
     private final String symbol = "[E]";
 
-    public Events(String task) {
+    public Events(String task) throws FoodException{
         Pattern p = Pattern.compile("^event (?<name>.+?) /from (?<from>.+?) /(?<to>.+)$");
         Matcher m = p.matcher(task);
-        m.matches();
+        if (!m.matches()) {
+            throw new FoodException("hey that's not a right format...");
+        }
         super(m.group("name"));
         this.to = m.group("to");
         this.from = m.group("from");

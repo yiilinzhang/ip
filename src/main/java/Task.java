@@ -2,7 +2,10 @@ public class Task {
     private String title;
     private boolean completed = false;
 
-    public Task(String title) {
+    public Task(String title) throws FoodException{
+        if (title.trim().equals("")) {
+            throw new FoodException("not sure why you want an empty task");
+        }
         this.title = title;
     }
 

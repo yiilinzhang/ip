@@ -5,10 +5,12 @@ public class Deadlines extends Task{
     private final String by;
     private final String symbol = "[D]";
 
-    public Deadlines(String task) {
+    public Deadlines(String task) throws FoodException{
         Pattern p = Pattern.compile("^deadline (?<name>.+?) /by (?<by>.+?)$");
         Matcher m = p.matcher(task);
-        m.matches();
+        if (!m.matches()) {
+            throw new FoodException("hey that's not a right format...");
+        }
         super(m.group("name"));
         this.by = m.group("by");
     }

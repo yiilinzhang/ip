@@ -7,7 +7,12 @@ public class Food {
         Chatbot food = new Chatbot();
         while (true) {
             String input = userIput.nextLine();
-            boolean cont = food.addInput(input);
+            boolean cont = true;
+            try {
+                cont = food.addInput(input);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
             if (!cont) {
                 break;
             }
