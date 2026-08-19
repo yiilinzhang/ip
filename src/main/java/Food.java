@@ -2,15 +2,15 @@ import java.util.Scanner;
 
 public class Food {
     public static void main(String[] args) {
-        Scanner userIput = new Scanner(System.in);
+        Scanner userInput = new Scanner(System.in);
 
-        Chatbot food = new Chatbot();
+        Foodbot food = new Foodbot();
         while (true) {
-            String input = userIput.nextLine();
+            String input = userInput.nextLine();
             boolean cont = true;
             try {
-                food.addInput(input);
-            } catch (Exception e) {
+                cont = food.addInput(input);
+            } catch (FoodException e) {
                 System.out.println(e.getMessage());
             }
             if (!cont) {

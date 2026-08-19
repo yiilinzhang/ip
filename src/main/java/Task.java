@@ -20,7 +20,7 @@ public class Task {
     @Override
     public String toString() {
         String status = "";
-        if (this.completed == true) {
+        if (this.completed) {
             status = "X";
         }
         return String.format("[%s] %s", status, this.title);

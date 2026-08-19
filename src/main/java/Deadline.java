@@ -1,11 +1,11 @@
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Deadlines extends Task{
+public class Deadline extends Task{
     private final String by;
     private final String symbol = "[D]";
 
-    public Deadlines(String task) throws FoodException{
+    public Deadline(String task) throws FoodException{
         Pattern p = Pattern.compile("^deadline (?<name>.+?) /by (?<by>.+?)$");
         Matcher m = p.matcher(task);
         if (!m.matches()) {
