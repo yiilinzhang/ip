@@ -1,4 +1,9 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Chatbot {
+    private List<String> list = new ArrayList<>();
+
     public Chatbot() {
         String banner = "  _______  _______  _______  ______  \n"
                 + " |   ____||   __  ||   __  ||      \\ \n"
@@ -18,8 +23,13 @@ public class Chatbot {
             return false;
         }
         if (input.equals("list")) {
+            for (int i = 0; i < list.size(); i ++) {
+                System.out.println(i + 1 + "." + list.get(i));
+            }
+        } else {
+            list.add(input);
+            System.out.println("added: " + input);
         }
-        System.out.println(input);
         return true;
     }
 }
