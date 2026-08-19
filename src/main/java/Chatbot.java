@@ -7,6 +7,7 @@ public class Chatbot {
     private static final String incompleteMessage = "OK, I've marked this task as not done yet:";
     private static final String listTaskMessage = "Here are the tasks in your list:";
     private static final String exitMessage = "Bye. Hope to see you soon!";
+    private static final String addTaskMessage = "Got it. I've added this task:";
     private static final String greetMessage = "Hello! I am Food.\nWhat can I do for you?";
     private static final String bannerMessage = "  _______  _______  _______  ______  \n"
             + " |   ____||   __  ||   __  ||      \\ \n"
@@ -54,8 +55,20 @@ public class Chatbot {
             System.out.println(String.format("%s\n%s", Chatbot.incompleteMessage, task));
             return true;
         }
-        list.add(new Task(input));
-        System.out.println("added: " + input);
+
+        Task addedTask = null;
+        if (parts[0].equals("todo")) {
+            addedTask = new ToDos(input);
+        }
+        if (parts[0].equals("deadline")) {
+            addedTask = new Deadlines(input);
+        }
+        if (parts[0].equals("event")) {
+            addedTask = new Events(input);
+        }
+        list.add(addedTask);
+        System.out.println(String.format("%s\n%s\nNow you have %d tasks in the list.",
+                Chatbot.addTaskMessage, addedTask, this.list.size()));
         return true;
     }
 }
