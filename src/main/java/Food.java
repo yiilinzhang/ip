@@ -1,5 +1,9 @@
+import java.util.Scanner;
+
 public class Food {
     public static void main(String[] args) {
+        Scanner userIput = new Scanner(System.in);
+
         String banner = "  _______  _______  _______  ______  \n"
                 + " |   ____||   __  ||   __  ||      \\ \n"
                 + " |  |___  |  |  | ||  |  | ||  ---  |\n"
@@ -10,6 +14,14 @@ public class Food {
         String exit = "Bye. Hope to see you soon!";
         System.out.println(banner);
         System.out.println(greet);
-        System.out.println(exit);
+
+        while (true) {
+            String input = userIput.nextLine();
+            if (input.equals("LET ME OUT!")) {
+                System.out.println(exit);
+                break;
+            }
+            System.out.println(input);
+        }
     }
 }
