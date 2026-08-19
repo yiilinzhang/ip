@@ -6,6 +6,10 @@ public class Food {
                 + " |   ___| |  |  | ||  |  | ||  |  | |\n"
                 + " |  |     |  |__| ||  |__| ||  ---  |\n"
                 + " |__|     |_______||_______||______/ \n";
+        String greet = "Hello! I am Food.\nWhat can I do for you?";
+        String exit = "Bye. Hope to see you soon!";
         System.out.println(banner);
+        System.out.println(greet);
+        System.out.println(exit);
     }
 }
