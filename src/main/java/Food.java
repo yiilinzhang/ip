@@ -7,21 +7,23 @@ public class Food {
         Foodbot food;
         try {
             food = new Foodbot();
-        } catch (FoodException e) {
-            // Without storage there is nothing to chat about, so report and stop.
+        } catch (FoodStorageException e) {
+            // Without a usable save file there is nothing to chat about, so report and stop.
             System.out.println(e.getMessage());
             return;
         }
 
-        while (true) {
+        while (userInput.hasNextLine()) {
             String input = userInput.nextLine();
-            boolean cont = true;
             try {
-                cont = food.addInput(input);
-            } catch (FoodException e) {
+                if (!food.addInput(input)) {
+                    break;
+                }
+            } catch (FoodInputException e) {
                 System.out.println(e.getMessage());
-            }
-            if (!cont) {
+            } catch (FoodStorageException e) {
+                System.out.println(e.getMessage());
+                e.printStackTrace();
                 break;
             }
         }
