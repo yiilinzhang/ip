@@ -17,6 +17,8 @@ public class Ui {
     private static final String COMPLETE_MESSAGE = "Nice! I've marked this task as done";
     private static final String INCOMPLETE_MESSAGE = "OK, I've marked this task as not done yet:";
     private static final String LIST_TASK_MESSAGE = "Here are the tasks in your list:";
+    private static final String FIND_TASK_MESSAGE = "Here are the matching tasks in your list:";
+    private static final String NO_MATCH_MESSAGE = "No matching tasks in your list.";
     private static final String EXIT_MESSAGE = "Bye. Hope to see you soon!";
     private static final String ADD_TASK_MESSAGE = "Got it. I've added this task:";
     private static final String GREET_MESSAGE = "Hello! I am Food.\nWhat can I do for you?";
@@ -85,7 +87,36 @@ public class Ui {
 
     public void showTaskList(List<Task> tasks) {
         System.out.println(LIST_TASK_MESSAGE);
-        for (int i = 0; i < tasks.size(); i ++) {
+        this.showNumbered(tasks);
+    }
+
+    /**
+     * Shows the tasks matching a search, or says so when nothing matched.
+     *
+     * <p>An empty result is reported explicitly rather than as an empty list, so the user can tell
+     * "nothing matched" apart from the program having done nothing.
+     *
+     * @param tasks the matching tasks, in list order.
+     */
+    public void showFoundTasks(List<Task> tasks) {
+        if (tasks.isEmpty()) {
+            System.out.println(NO_MATCH_MESSAGE);
+            return;
+        }
+        System.out.println(FIND_TASK_MESSAGE);
+        this.showNumbered(tasks);
+    }
+
+    /**
+     * Prints tasks numbered from 1, the way the user refers to them in commands such as "mark 2".
+     *
+     * <p>Note that after a search these numbers count the matches, not the positions of those
+     * tasks in the full list.
+     *
+     * @param tasks the tasks to print, in the order they should appear.
+     */
+    private void showNumbered(List<Task> tasks) {
+        for (int i = 0; i < tasks.size(); i++) {
             System.out.println(String.format("%d. %s", i + 1, tasks.get(i)));
         }
     }

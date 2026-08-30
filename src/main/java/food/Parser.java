@@ -16,7 +16,7 @@ import food.exception.FoodInputException;
 public class Parser {
 
     /** The kinds of thing Food can be asked to do. */
-    public enum CommandType { LIST, MARK, UNMARK, DELETE, ADD, EXIT }
+    public enum CommandType { LIST, FIND, MARK, UNMARK, DELETE, ADD, EXIT }
 
     /** The index carried by commands that do not refer to a particular task. */
     public static final int NO_INDEX = -1;
@@ -59,6 +59,14 @@ public class Parser {
             case "mark" -> new Command(CommandType.MARK, parseTaskIndex(parts), input);
             case "unmark" -> new Command(CommandType.UNMARK, parseTaskIndex(parts), input);
             case "delete" -> new Command(CommandType.DELETE, parseTaskIndex(parts), input);
+            case "find" -> {
+                // Only the shape is checked here; the keyword itself is read back out of
+                // rawInput, the same way ADD leaves the details to Todo, Deadline and Event.
+                if (parts.length < 2) {
+                    throw new FoodInputException("find has to be followed by a keyword");
+                }
+                yield new Command(CommandType.FIND, NO_INDEX, input);
+            }
             case "todo", "deadline", "event" -> new Command(CommandType.ADD, NO_INDEX, input);
             default -> throw new FoodInputException(
                     "OOPS!!! I'm sorry, but I don't know what that means :-(");

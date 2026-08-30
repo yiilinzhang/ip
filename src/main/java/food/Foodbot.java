@@ -15,6 +15,9 @@ import food.task.Todo;
  * remembers the tasks between runs.
  */
 public class Foodbot {
+    /** The command word stripped off before searching; see {@link #findTasks}. */
+    private static final String FIND_COMMAND = "find";
+
     private final TaskList tasks;
     private final Storage storage;
     private final Ui ui;
@@ -43,14 +46,17 @@ public class Foodbot {
                 return false;
             }
             case LIST -> this.listTasks();
+            case FIND -> this.findTasks(command.rawInput());
             case MARK -> this.markComplete(command.index());
             case UNMARK -> this.markIncomplete(command.index());
             case DELETE -> this.deleteTask(command.index());
             case ADD -> this.addTask(command.rawInput());
         }
 
-        // "list" only reads, so there is nothing new to write for it.
-        if (command.type() != Parser.CommandType.LIST) {
+        // "list" and "find" only read, so there is nothing new to write for them.
+        boolean isReadOnly = command.type() == Parser.CommandType.LIST
+                || command.type() == Parser.CommandType.FIND;
+        if (!isReadOnly) {
             this.storage.save(this.tasks.asList());
         }
         return true;
@@ -86,6 +92,18 @@ public class Foodbot {
         Task task = this.tasks.get(index, "unmark");
         task.markIncomplete();
         this.ui.showUnmarked(task);
+    }
+
+    /**
+     * Shows every task whose description contains the keyword the user typed.
+     *
+     * @param input the raw line, which starts with "find".
+     */
+    public void findTasks(String input) {
+        // Everything after the command word is the keyword, so "find read book" searches for the
+        // whole phrase rather than just the first word.
+        String keyword = input.trim().substring(FIND_COMMAND.length()).trim();
+        this.ui.showFoundTasks(this.tasks.find(keyword));
     }
 
     public void listTasks() {

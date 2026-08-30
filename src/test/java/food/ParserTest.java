@@ -139,6 +139,28 @@ public class ParserTest {
         assertEquals(new Command(CommandType.ADD, Parser.NO_INDEX, "todo"), Parser.parse("todo"));
     }
 
+    // --- find ---------------------------------------------------------------
+
+    @Test
+    public void parse_findWithKeyword_findCommandWithRawInputReturned() throws FoodInputException {
+        // FIND carries no index; the keyword is read back out of the raw line, as ADD does.
+        assertEquals(new Command(CommandType.FIND, Parser.NO_INDEX, "find book"),
+                Parser.parse("find book"));
+    }
+
+    @Test
+    public void parse_findWithMultiWordKeyword_findCommandReturned() throws FoodInputException {
+        assertEquals(new Command(CommandType.FIND, Parser.NO_INDEX, "find read book"),
+                Parser.parse("find read book"));
+    }
+
+    @Test
+    public void parse_findWithoutKeyword_exceptionThrown() {
+        FoodInputException e =
+                assertThrows(FoodInputException.class, () -> Parser.parse("find"));
+        assertEquals("find has to be followed by a keyword", e.getMessage());
+    }
+
     // --- unknown input ------------------------------------------------------
 
     @Test

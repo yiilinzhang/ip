@@ -39,6 +39,21 @@ public class TaskList {
     }
 
     /**
+     * Returns the tasks whose descriptions contain the given keyword, ignoring case.
+     *
+     * <p>Only the description is searched, so "find 2026" does not match a deadline that happens
+     * to fall in 2026.
+     *
+     * @param keyword the text to search for.
+     * @return the matching tasks in list order, empty if none match.
+     */
+    public List<Task> find(String keyword) {
+        return this.tasks.stream()
+                .filter(task -> task.hasKeyword(keyword))
+                .toList();
+    }
+
+    /**
      * Removes and returns the task at the given index.
      *
      * @param index  0-based position of the task
