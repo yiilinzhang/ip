@@ -30,10 +30,20 @@ public class TaskList {
         this.tasks = new ArrayList<>(tasks);
     }
 
+    /**
+     * Returns how many tasks are in the list, e.g. for the "now you have N tasks" message.
+     *
+     * @return the number of tasks currently held
+     */
     public int size() {
         return this.tasks.size();
     }
 
+    /**
+     * Adds a task to the end of the list.
+     *
+     * @param task the task to add; no index check is needed because appending is always valid
+     */
     public void add(Task task) {
         this.tasks.add(task);
     }
@@ -43,6 +53,7 @@ public class TaskList {
      *
      * @param index  0-based position of the task
      * @param action the command word, used only to word the error message
+     * @return the task that was removed
      * @throws FoodInputException if no task sits at that index
      */
     public Task delete(int index, String action) throws FoodInputException {
@@ -55,6 +66,7 @@ public class TaskList {
      *
      * @param index  0-based position of the task
      * @param action the command word, used only to word the error message
+     * @return the task at that index
      * @throws FoodInputException if no task sits at that index
      */
     public Task get(int index, String action) throws FoodInputException {
@@ -66,6 +78,8 @@ public class TaskList {
      * Returns a read-only view of the tasks, for code that only needs to walk over them, such as
      * printing the list or writing it to disk. Read-only so that handing the list out cannot
      * become a second way of modifying it.
+     *
+     * @return an unmodifiable view of the tasks, in list order
      */
     public List<Task> asList() {
         return Collections.unmodifiableList(this.tasks);

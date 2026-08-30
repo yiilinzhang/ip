@@ -9,6 +9,11 @@ package food.exception;
  * since the subclass is what tells the caller how to react.
  */
 public class FoodException extends Exception {
+    /**
+     * Creates an exception carrying a message meant to be shown to the user.
+     *
+     * @param msg the explanation to show
+     */
     public FoodException(String msg) {
         super(msg);
     }

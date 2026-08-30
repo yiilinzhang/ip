@@ -5,12 +5,29 @@ import food.exception.FoodStorageException;
 
 /**
  * A single item on the user's list. Subclasses add the details specific to each kind of task.
+ *
+ * <p>This class holds what every task has regardless of kind: a description, whether it is done,
+ * and the line the user originally typed. Keeping that original line is what lets a task be
+ * written to disk and read back without a separate save format having to be invented for each
+ * subclass; see {@link #toSaveFormat} and {@link #fromSaveFormat}.
  */
 public class Task {
+    /** The description shown to the user, e.g. "read book". */
     private String title;
+    /** Whether the user has marked this task done; shown as the "X" in the display form. */
     private boolean isCompleted = false;
+    /** The line the user typed, kept so the task can be saved and rebuilt verbatim. */
     private final String input;
 
+    /**
+     * Creates a task. Called through {@code super(...)} by each subclass once it has picked the
+     * description out of the user's line.
+     *
+     * @param title the description to show the user
+     * @param input the untouched line the user typed, used later when saving
+     * @throws FoodInputException if the description is empty or only spaces, which almost always
+     *                            means the user left the description off
+     */
     public Task(String title, String input) throws FoodInputException {
         if (title.isBlank()) {
             throw new FoodInputException("not sure why you want an empty task");
@@ -19,8 +36,13 @@ public class Task {
         this.title = title;
     }
 
-    /*
-     * Converts input to storage format by adding 0 / 1 for incomplete and completed respectively
+    /**
+     * Returns the task as one line for the save file, e.g. "1 | todo read book".
+     *
+     * <p>The completed flag is written as 0 or 1 in front of the original input, because the
+     * input alone does not record whether the task was later marked done.
+     *
+     * @return the line to write to the save file
      */
     public String toSaveFormat() {
         return String.format("%d | %s", this.isCompleted ? 1 : 0, this.input);
@@ -65,14 +87,22 @@ public class Task {
         return task;
     }
 
+    /** Marks this task done. Marking an already-done task again changes nothing. */
     public void markComplete() {
         this.isCompleted = true;
     }
 
+    /** Marks this task not done, undoing {@link #markComplete}. */
     public void markIncomplete() {
         this.isCompleted = false;
     }
 
+    /**
+     * Returns the status and description, e.g. "[X] read book" when done and "[] read book" when
+     * not. Each subclass prepends its own symbol to this.
+     *
+     * @return the shared part of the display form
+     */
     @Override
     public String toString() {
         String status = "";

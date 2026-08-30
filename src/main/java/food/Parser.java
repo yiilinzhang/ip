@@ -16,7 +16,20 @@ import food.exception.FoodInputException;
 public class Parser {
 
     /** The kinds of thing Food can be asked to do. */
-    public enum CommandType { LIST, MARK, UNMARK, DELETE, ADD, EXIT }
+    public enum CommandType {
+        /** Show every task in the list. */
+        LIST,
+        /** Mark the task at the given index as done. */
+        MARK,
+        /** Mark the task at the given index as not done. */
+        UNMARK,
+        /** Remove the task at the given index. */
+        DELETE,
+        /** Add a new todo, deadline or event. */
+        ADD,
+        /** Leave the chatbot. */
+        EXIT
+    }
 
     /** The index carried by commands that do not refer to a particular task. */
     public static final int NO_INDEX = -1;

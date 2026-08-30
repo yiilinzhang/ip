@@ -8,10 +8,21 @@ package food.exception;
  * commands whose changes can no longer be saved.
  */
 public class FoodStorageException extends FoodException {
+    /**
+     * Creates an exception describing which save file operation failed.
+     *
+     * @param msg the explanation to show the user, e.g. which save file operation failed
+     */
     public FoodStorageException(String msg) {
         super(msg);
     }
 
+    /**
+     * Creates an exception that also remembers the lower-level failure behind it.
+     *
+     * @param msg   the explanation to show the user
+     * @param cause the lower-level exception being translated, usually an IOException
+     */
     public FoodStorageException(String msg, Throwable cause) {
         super(msg, cause);
     }
