@@ -17,52 +17,61 @@ public class Foodbot {
             + " |__|     |_______||_______||______/ \n";
 
 
-    public Foodbot() {
+    public Foodbot() throws FoodException{
         System.out.println(String.format("%s\n%s", Foodbot.bannerMessage, Foodbot.greetMessage));
+        Storage save = new Storage();
+        this.list = save.retrieveSaved();
     }
 
+    /**
+     * Handles one line of user input.
+     *
+     * @param input the raw line the user typed
+     * @return false if the user asked to exit, true to keep the chatbot running
+     * @throws FoodException if the command is unknown or badly formed
+     */
     public boolean addInput(String input) throws FoodException {
-        // When user exits chatbot
+        // Checked before splitting, since the exit phrase is several words long.
         if (input.equals("LET ME OUT!")) {
             System.out.println(Foodbot.exitMessage);
             return false;
         }
 
-        // List out all tasks
-        if (input.equals("list")) {
-           listTasks();
-            return true;
-        }
-
         String[] parts = input.trim().split(" ");
+        String command = parts[0];
 
-        // Check if user want to mark tasks as complete/ incomplete
-        if (parts.length == 2 && parts[0].equals("mark")) {
-            this.markComplete(parts[1]);
-            return true;
-        }
-        if (parts.length == 2 && parts[0].equals("unmark")) {
-            this.markIncomplete(parts[1]);
-            return true;
-        }
-
-        // Add tasks
-        if (parts[0].equals("todo") || parts[0].equals("deadline") || parts[0].equals("event")) {
-            this.addTask(input, parts);
-            return true;
+        // Arrow labels: each case runs only its own branch, so no break/fall-through.
+        switch (command) {
+            case "list" -> this.listTasks();
+            case "mark" -> this.markComplete(getArgument(parts));
+            case "unmark" -> this.markIncomplete(getArgument(parts));
+            case "delete" -> this.deleteTask(getArgument(parts));
+            case "todo", "deadline", "event" -> this.addTask(input);
+            default -> throw new FoodException("OOPS!!! I'm sorry, but I don't know what that means :-(");
         }
 
-        // Delete tasks
-        if (parts.length == 2 && parts[0].equals("delete")) {
-            deleteTask(parts[1]);
-            return true;
-        }
-
-        // None of the above
-        throw new FoodException("OOPS!!! I'm sorry, but I don't know what that means :-(");
+        Storage taskStorage = new Storage();
+        taskStorage.save(this.list);
+        return true;
     }
 
-    public void addTask(String input, String[] parts) throws FoodException{
+    /**
+     * Returns the single argument that follows a command word, e.g. the "2" in "mark 2".
+     *
+     * @param parts the input split on spaces
+     * @return the argument after the command word
+     * @throws FoodException if the command was not given exactly one argument
+     */
+    private static String getArgument(String[] parts) throws FoodException {
+        if (parts.length != 2) {
+            throw new FoodException(String.format("%s has to be followed by exactly one task number",
+                    parts[0]));
+        }
+        return parts[1];
+    }
+
+    public void addTask(String input) throws FoodException{
+        String[] parts = input.trim().split(" ");
         Task addedTask = null;
         if (parts[0].equals("todo")) {
             addedTask = new Todo(input);

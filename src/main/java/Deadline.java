@@ -11,7 +11,7 @@ public class Deadline extends Task{
         if (!m.matches()) {
             throw new FoodException("hey that's not a right format...");
         }
-        super(m.group("name"));
+        super(m.group("name"), task);
         this.by = m.group("by");
     }
 

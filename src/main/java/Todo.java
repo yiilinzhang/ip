@@ -10,7 +10,7 @@ public class Todo extends Task{
         if (!m.matches()) {
             throw new FoodException("hey that's not a right format...");
         }
-        super(m.group("name"));
+        super(m.group("name"), task);
     }
 
     @Override

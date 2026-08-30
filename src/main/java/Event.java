@@ -12,7 +12,7 @@ public class Event extends Task{
         if (!m.matches()) {
             throw new FoodException("hey that's not a right format...");
         }
-        super(m.group("name"));
+        super(m.group("name"), task);
         this.to = m.group("to");
         this.from = m.group("from");
     }
