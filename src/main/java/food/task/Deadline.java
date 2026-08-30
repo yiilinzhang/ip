@@ -1,14 +1,14 @@
 package food.task;
 
-import food.exception.FoodInputException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import food.exception.FoodInputException;
 
-public class Deadline extends Task{
+public class Deadline extends Task {
     private final LocalDate by;
-    private final String symbol = "[D]";
+    private static final String SYMBOL = "[D]";
 
     public Deadline(String task) throws FoodInputException {
         Pattern p = Pattern.compile("^deadline (?<name>.+?) /by (?<by>.+?)$");
@@ -30,7 +30,7 @@ public class Deadline extends Task{
     public String toString() {
         // Returns date in DD/MM/YYY
         return String.format("%s %s (by: %d/%d/%d)",
-                this.symbol,
+                SYMBOL,
                 super.toString(),
                 this.by.getDayOfMonth(),
                 this.by.getMonthValue(),

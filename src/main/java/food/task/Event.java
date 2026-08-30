@@ -1,15 +1,15 @@
 package food.task;
 
-import food.exception.FoodInputException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import food.exception.FoodInputException;
 
-public class Event extends Task{
+public class Event extends Task {
     private final LocalDate to;
     private final LocalDate from;
-    private final String symbol = "[E]";
+    private static final String SYMBOL = "[E]";
 
     public Event(String task) throws FoodInputException {
         Pattern p = Pattern.compile("^event (?<name>.+?) /from (?<from>.+?) /to (?<to>.+)$");
@@ -29,7 +29,7 @@ public class Event extends Task{
     @Override
     public String toString() {
         return String.format("%s %s (from: %d/%d/%d to: %d/%d/%d)",
-                                this.symbol,
+                                SYMBOL,
                                 super.toString(),
                                 this.from.getDayOfMonth(),
                                 this.from.getMonthValue(),

@@ -14,7 +14,6 @@ import food.exception.FoodInputException;
  * here: only TaskList knows how many tasks there are.
  */
 public class Parser {
-
     /** The kinds of thing Food can be asked to do. */
     public enum CommandType { LIST, MARK, UNMARK, DELETE, ADD, EXIT }
 
@@ -29,20 +28,20 @@ public class Parser {
      * <p>A record rather than a class: it is nothing but the three answers the parser worked out,
      * and records give the constructor, accessors and equals for free.
      *
-     * @param type     what was asked for
-     * @param index    0-based task index for MARK, UNMARK and DELETE; {@link #NO_INDEX} otherwise
+     * @param type     what was asked for.
+     * @param index    0-based task index for MARK, UNMARK and DELETE; {@link #NO_INDEX} otherwise.
      * @param rawInput the untouched line, which ADD needs because Todo, Deadline and Event read
-     *                 the details out of it themselves
+     *                 the details out of it themselves.
      */
     public record Command(CommandType type, int index, String rawInput) {}
 
     /**
      * Reads one line of user input.
      *
-     * @param input the raw line the user typed
-     * @return the command it stands for
+     * @param input the raw line the user typed.
+     * @return the command it stands for.
      * @throws FoodInputException if the command is unknown, or is not followed by exactly one
-     *                            task number when it needs one
+     *                            task number when it needs one.
      */
     public static Command parse(String input) throws FoodInputException {
         // Checked before splitting, since the exit phrase is several words long.
@@ -69,9 +68,9 @@ public class Parser {
      * Converts the task number following a command word into a 0-based index, e.g. the "2" in
      * "mark 2" becomes 1.
      *
-     * @param parts the input split on spaces, with the command word first
-     * @return the 0-based index the user meant
-     * @throws FoodInputException if there is not exactly one argument, or it is not a number
+     * @param parts the input split on spaces, with the command word first.
+     * @return the 0-based index the user meant.
+     * @throws FoodInputException if there is not exactly one argument, or it is not a number.
      */
     private static int parseTaskIndex(String[] parts) throws FoodInputException {
         String command = parts[0];

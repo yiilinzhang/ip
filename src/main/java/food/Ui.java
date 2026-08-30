@@ -1,9 +1,9 @@
 package food;
 
-import food.exception.FoodStorageException;
-import food.task.Task;
 import java.util.List;
 import java.util.Scanner;
+import food.exception.FoodStorageException;
+import food.task.Task;
 
 /**
  * Deals with all interaction with the user: reading commands typed at the console, and printing
@@ -45,18 +45,16 @@ public class Ui {
     }
 
     public void showWelcome() {
-
         System.out.println(String.format("%s\n%s", BANNER_MESSAGE, GREET_MESSAGE));
     }
 
     public void showGoodbye() {
-
         System.out.println(EXIT_MESSAGE);
     }
 
     /**
-     * @param task  the task just added
-     * @param total how many tasks the list now holds
+     * @param task  the task just added.
+     * @param total how many tasks the list now holds.
      */
     public void showTaskAdded(Task task, int total) {
         System.out.println(String.format("%s\n%s\nNow you have %d tasks in the list.",
@@ -64,35 +62,33 @@ public class Ui {
     }
 
     /**
-     * @param task      the task just removed
-     * @param remaining how many tasks are left
+     * @param task      the task just removed.
+     * @param remaining how many tasks are left.
      */
     public void showTaskDeleted(Task task, int remaining) {
-        System.out.println(String.format("Noted. I've removed this task: \n%s\nNow you have %d tasks in the list.",
+        System.out.println(String.format(
+                "Noted. I've removed this task: \n%s\nNow you have %d tasks in the list.",
                 task,
                 remaining));
     }
 
     public void showMarked(Task task) {
-
         System.out.println(String.format("%s\n%s", COMPLETE_MESSAGE, task));
     }
 
     public void showUnmarked(Task task) {
-
         System.out.println(String.format("%s\n%s", INCOMPLETE_MESSAGE, task));
     }
 
     public void showTaskList(List<Task> tasks) {
         System.out.println(LIST_TASK_MESSAGE);
-        for (int i = 0; i < tasks.size(); i ++) {
+        for (int i = 0; i < tasks.size(); i++) {
             System.out.println(String.format("%d. %s", i + 1, tasks.get(i)));
         }
     }
 
     /** Reports a recoverable problem, such as a command the user mistyped. */
     public void showError(String message) {
-
         System.out.println(message);
     }
 

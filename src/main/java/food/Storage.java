@@ -1,12 +1,12 @@
 package food;
 
-import food.exception.FoodStorageException;
-import food.task.Task;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import food.exception.FoodStorageException;
+import food.task.Task;
 
 /**
  * Stores task history in data/tasks.md, creating the file if it does not exist.
@@ -34,8 +34,8 @@ class Storage {
     /**
      * Writes the whole task list to disk, replacing whatever was there before.
      *
-     * @param taskList the tasks to save
-     * @throws FoodStorageException if the file could not be written
+     * @param taskList the tasks to save.
+     * @throws FoodStorageException if the file could not be written.
      */
     public void save(List<Task> taskList) throws FoodStorageException {
         try {
@@ -49,8 +49,8 @@ class Storage {
     /**
      * Reads the save file back into tasks.
      *
-     * @return the saved tasks, in the order they were written
-     * @throws FoodStorageException if the file could not be read or contains a bad line
+     * @return the saved tasks, in the order they were written.
+     * @throws FoodStorageException if the file could not be read or contains a bad line.
      */
     public List<Task> retrieveSaved() throws FoodStorageException {
         List<String> savedLines;

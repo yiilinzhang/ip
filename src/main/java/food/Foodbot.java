@@ -29,10 +29,10 @@ public class Foodbot {
     /**
      * Handles one line of user input.
      *
-     * @param input the raw line the user typed
-     * @return false if the user asked to exit, true to keep the chatbot running
-     * @throws FoodInputException   if the command is unknown or badly formed
-     * @throws FoodStorageException if the resulting task list could not be saved
+     * @param input the raw line the user typed.
+     * @return false if the user asked to exit, true to keep the chatbot running.
+     * @throws FoodInputException   if the command is unknown or badly formed.
+     * @throws FoodStorageException if the resulting task list could not be saved.
      */
     public boolean addInput(String input) throws FoodInputException, FoodStorageException {
         Parser.Command command = Parser.parse(input);

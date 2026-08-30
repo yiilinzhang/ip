@@ -1,11 +1,11 @@
 package food.task;
 
-import food.exception.FoodInputException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import food.exception.FoodInputException;
 
-public class Todo extends Task{
-    private final String symbol = "[T]";
+public class Todo extends Task {
+    private static final String SYMBOL = "[T]";
 
     public Todo(String task) throws FoodInputException {
         Pattern p = Pattern.compile("^todo (?<name>.+?)$");
@@ -19,7 +19,7 @@ public class Todo extends Task{
     @Override
     public String toString() {
         return String.format("%s %s",
-                this.symbol,
+                SYMBOL,
                 super.toString());
     }
 }
