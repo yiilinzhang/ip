@@ -3,10 +3,10 @@ package food;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import org.junit.jupiter.api.Test;
 import food.Parser.Command;
 import food.Parser.CommandType;
 import food.exception.FoodInputException;
-import org.junit.jupiter.api.Test;
 
 /**
  * Tests {@link Parser#parse(String)}.
@@ -18,7 +18,6 @@ import org.junit.jupiter.api.Test;
  * the commands carrying a task number, the add commands, and the inputs that must be rejected.
  */
 public class ParserTest {
-
     // --- exit ---------------------------------------------------------------
 
     @Test

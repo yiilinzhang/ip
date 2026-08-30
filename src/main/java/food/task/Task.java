@@ -56,9 +56,9 @@ public class Task {
      * something wrong, so the FoodInputException they throw is translated into a
      * FoodStorageException before it leaves this method.
      *
-     * @param line one line of the save file
-     * @return the reconstructed task, with its completed flag restored
-     * @throws FoodStorageException if the line is not in the expected format
+     * @param line one line of the save file.
+     * @return the reconstructed task, with its completed flag restored.
+     * @throws FoodStorageException if the line is not in the expected format.
      */
     public static Task fromSaveFormat(String line) throws FoodStorageException {
         // Limit of 2 so a " | " inside the task description is not split away.

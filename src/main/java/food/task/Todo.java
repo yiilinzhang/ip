@@ -1,8 +1,8 @@
 package food.task;
 
-import food.exception.FoodInputException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import food.exception.FoodInputException;
 
 /**
  * A task with nothing but a description, e.g. "todo read book".
@@ -10,9 +10,9 @@ import java.util.regex.Pattern;
  * <p>The simplest of the three task kinds: unlike {@link Deadline} and {@link Event} it carries
  * no dates, so it only has to pull the description out of the line the user typed.
  */
-public class Todo extends Task{
+public class Todo extends Task {
     /** Printed in front of every Todo so the user can tell the task kinds apart at a glance. */
-    private final String symbol = "[T]";
+    private static final String SYMBOL = "[T]";
 
     /**
      * Creates a Todo from the line the user typed.
@@ -41,7 +41,7 @@ public class Todo extends Task{
     @Override
     public String toString() {
         return String.format("%s %s",
-                this.symbol,
+                SYMBOL,
                 super.toString());
     }
 }

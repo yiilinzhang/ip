@@ -1,9 +1,9 @@
 package food.task;
 
-import food.exception.FoodInputException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import food.exception.FoodInputException;
 
 /**
  * The tasks the user is keeping, together with the operations that change them.
@@ -24,7 +24,7 @@ public class TaskList {
      * Creates a list holding tasks that were loaded elsewhere, e.g. read back from the save file.
      *
      * @param tasks the tasks to start with; copied, so later changes to the caller's list do not
-     *              silently change ours
+     *              silently change ours.
      */
     public TaskList(List<Task> tasks) {
         this.tasks = new ArrayList<>(tasks);
@@ -51,10 +51,10 @@ public class TaskList {
     /**
      * Removes and returns the task at the given index.
      *
-     * @param index  0-based position of the task
-     * @param action the command word, used only to word the error message
-     * @return the task that was removed
-     * @throws FoodInputException if no task sits at that index
+     * @param index  0-based position of the task.
+     * @param action the command word, used only to word the error message.
+     * @return the task that was removed.
+     * @throws FoodInputException if no task sits at that index.
      */
     public Task delete(int index, String action) throws FoodInputException {
         this.checkIndex(index, action);
@@ -64,7 +64,7 @@ public class TaskList {
     /**
      * Returns the task at the given index, leaving it in the list.
      *
-     * @param index  0-based position of the task
+     * @param index  0-based position of the task.
      * @param action the command word, used only to word the error message
      * @return the task at that index
      * @throws FoodInputException if no task sits at that index

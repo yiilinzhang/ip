@@ -25,8 +25,8 @@ public class FoodException extends Exception {
      * cause, the original stack trace is lost and "Error saving to storage" is all you ever get
      * to debug with.
      *
-     * @param msg   message shown to the user
-     * @param cause the original exception being translated
+     * @param msg   message shown to the user.
+     * @param cause the original exception being translated.
      */
     public FoodException(String msg, Throwable cause) {
         super(msg, cause);

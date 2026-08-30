@@ -1,9 +1,9 @@
 package food;
 
-import food.exception.FoodStorageException;
-import food.task.Task;
 import java.util.List;
 import java.util.Scanner;
+import food.exception.FoodStorageException;
+import food.task.Task;
 
 /**
  * Deals with all interaction with the user: reading commands typed at the console, and printing
@@ -53,13 +53,11 @@ public class Ui {
 
     /** Prints the banner and greeting shown once when the program starts. */
     public void showWelcome() {
-
         System.out.println(String.format("%s\n%s", BANNER_MESSAGE, GREET_MESSAGE));
     }
 
     /** Prints the parting message shown when the user asks to exit. */
     public void showGoodbye() {
-
         System.out.println(EXIT_MESSAGE);
     }
 
@@ -81,7 +79,8 @@ public class Ui {
      * @param remaining how many tasks are left
      */
     public void showTaskDeleted(Task task, int remaining) {
-        System.out.println(String.format("Noted. I've removed this task: \n%s\nNow you have %d tasks in the list.",
+        System.out.println(String.format(
+                "Noted. I've removed this task: \n%s\nNow you have %d tasks in the list.",
                 task,
                 remaining));
     }
@@ -92,7 +91,6 @@ public class Ui {
      * @param task the task just marked
      */
     public void showMarked(Task task) {
-
         System.out.println(String.format("%s\n%s", COMPLETE_MESSAGE, task));
     }
 
@@ -102,7 +100,6 @@ public class Ui {
      * @param task the task just unmarked
      */
     public void showUnmarked(Task task) {
-
         System.out.println(String.format("%s\n%s", INCOMPLETE_MESSAGE, task));
     }
 
@@ -116,7 +113,7 @@ public class Ui {
      */
     public void showTaskList(List<Task> tasks) {
         System.out.println(LIST_TASK_MESSAGE);
-        for (int i = 0; i < tasks.size(); i ++) {
+        for (int i = 0; i < tasks.size(); i++) {
             System.out.println(String.format("%d. %s", i + 1, tasks.get(i)));
         }
     }
@@ -127,7 +124,6 @@ public class Ui {
      * @param message the explanation to show; the program carries on afterwards
      */
     public void showError(String message) {
-
         System.out.println(message);
     }
 

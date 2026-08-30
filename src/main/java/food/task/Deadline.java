@@ -1,6 +1,5 @@
 package food.task;
 
-import food.exception.FoodInputException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.regex.Matcher;
@@ -12,11 +11,11 @@ import java.util.regex.Pattern;
  * <p>The date is kept as a {@link LocalDate} rather than as the text the user typed, so that it is
  * validated once when the task is created and can later be compared or reformatted.
  */
-public class Deadline extends Task{
+public class Deadline extends Task {
     /** The day the task is due. */
     private final LocalDate by;
     /** Printed in front of every Deadline so the user can tell the task kinds apart at a glance. */
-    private final String symbol = "[D]";
+    private static final String SYMBOL = "[D]";
 
     /**
      * Creates a Deadline from the line the user typed.
@@ -53,7 +52,7 @@ public class Deadline extends Task{
     public String toString() {
         // Returns date in DD/MM/YYY
         return String.format("%s %s (by: %d/%d/%d)",
-                this.symbol,
+                SYMBOL,
                 super.toString(),
                 this.by.getDayOfMonth(),
                 this.by.getMonthValue(),

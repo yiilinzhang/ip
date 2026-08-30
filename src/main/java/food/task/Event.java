@@ -1,10 +1,10 @@
 package food.task;
 
-import food.exception.FoodInputException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import food.exception.FoodInputException;
 
 /**
  * A task that spans a range of dates, e.g. "event camp /from 2026-09-07 /to 2026-09-09".
@@ -12,13 +12,13 @@ import java.util.regex.Pattern;
  * <p>The only task kind that holds two dates. Both are parsed into {@link LocalDate} so that a bad
  * date is rejected when the task is created rather than when it is later displayed.
  */
-public class Event extends Task{
+public class Event extends Task {
     /** The day the event ends. */
     private final LocalDate to;
     /** The day the event starts. */
     private final LocalDate from;
     /** Printed in front of every Event so the user can tell the task kinds apart at a glance. */
-    private final String symbol = "[E]";
+    private static final String SYMBOL = "[E]";
 
     /**
      * Creates an Event from the line the user typed.
@@ -55,7 +55,7 @@ public class Event extends Task{
     @Override
     public String toString() {
         return String.format("%s %s (from: %d/%d/%d to: %d/%d/%d)",
-                                this.symbol,
+                                SYMBOL,
                                 super.toString(),
                                 this.from.getDayOfMonth(),
                                 this.from.getMonthValue(),
