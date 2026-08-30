@@ -87,6 +87,19 @@ public class Task {
         return task;
     }
 
+    /**
+     * Returns whether this task's description contains the given keyword, ignoring case.
+     *
+     * <p>The task answers this itself so that the description stays private: callers can search
+     * without being handed the field to compare on.
+     *
+     * @param keyword the text to look for.
+     * @return true if the description contains the keyword.
+     */
+    public boolean hasKeyword(String keyword) {
+        return this.title.toLowerCase().contains(keyword.toLowerCase());
+    }
+
     /** Marks this task done. Marking an already-done task again changes nothing. */
     public void markComplete() {
         this.isCompleted = true;
