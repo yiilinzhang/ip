@@ -1,3 +1,8 @@
+package food;
+
+import food.exception.FoodInputException;
+import food.exception.FoodStorageException;
+
 public class Food {
     public static void main(String[] args) {
         // One Ui for the whole program, shared with Foodbot, so System.in is read in one place.

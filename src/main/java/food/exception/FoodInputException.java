@@ -1,3 +1,5 @@
+package food.exception;
+
 /**
  * Signals that the user typed something the chatbot cannot make sense of, such as an unknown
  * command, a missing argument, or a task number that does not exist.

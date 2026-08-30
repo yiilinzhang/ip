@@ -1,3 +1,5 @@
+package food.exception;
+
 /**
  * Base class for every error the chatbot raises on purpose.
  *

@@ -1,3 +1,5 @@
+package food.exception;
+
 /**
  * Signals that reading or writing the save file failed, or that its contents are corrupted.
  *
