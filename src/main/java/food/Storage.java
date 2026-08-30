@@ -18,6 +18,15 @@ import java.util.List;
 class Storage {
     private final Path storagePath;
 
+    /**
+     * Opens the save file, creating data/tasks.md and the folder holding it the first time the
+     * program is run so that later reads and writes can assume the file exists.
+     *
+     * <p>The path is relative, so the save file is created in whichever directory the program is
+     * started from.
+     *
+     * @throws FoodStorageException if the file or its folder could not be created
+     */
     public Storage() throws FoodStorageException {
         this.storagePath = Path.of("data", "tasks.md");
         try {

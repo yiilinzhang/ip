@@ -19,6 +19,15 @@ public class Foodbot {
     private final Storage storage;
     private final Ui ui;
 
+    /**
+     * Greets the user and loads any previously saved tasks.
+     *
+     * <p>The Ui is passed in rather than created here so that the whole program shares one reader
+     * of System.in; see {@link Ui}.
+     *
+     * @param ui the shared user interface to greet through and report to
+     * @throws FoodStorageException if the save file could not be opened or read
+     */
     public Foodbot(Ui ui) throws FoodStorageException {
         this.ui = ui;
         this.ui.showWelcome();
@@ -56,6 +65,16 @@ public class Foodbot {
         return true;
     }
 
+    /**
+     * Creates the right kind of task from the user's line, adds it, and tells the user.
+     *
+     * <p>Only the first word is read here; each task class parses the rest of the line itself,
+     * which keeps the knowledge of a task's format in the class that owns that format.
+     *
+     * @param input the raw line, starting with "todo", "deadline" or "event"
+     * @throws FoodInputException if the first word is not a kind of task, or the rest of the line
+     *                            is not in the shape that kind of task expects
+     */
     public void addTask(String input) throws FoodInputException {
         String[] parts = input.trim().split(" ");
         // A switch expression rather than three ifs, so addedTask can never be left null:
@@ -71,23 +90,42 @@ public class Foodbot {
         this.ui.showTaskAdded(addedTask, this.tasks.size());
     }
 
+    /**
+     * Removes a task from the list and tells the user what is left.
+     *
+     * @param index 0-based position of the task, as worked out by the {@link Parser}
+     * @throws FoodInputException if no task sits at that index
+     */
     public void deleteTask(int index) throws FoodInputException {
         Task task = this.tasks.delete(index, "delete");
         this.ui.showTaskDeleted(task, this.tasks.size());
     }
 
+    /**
+     * Marks a task done and shows it in its new state.
+     *
+     * @param index 0-based position of the task, as worked out by the {@link Parser}
+     * @throws FoodInputException if no task sits at that index
+     */
     public void markComplete(int index) throws FoodInputException {
         Task task = this.tasks.get(index, "mark");
         task.markComplete();
         this.ui.showMarked(task);
     }
 
+    /**
+     * Marks a task not done and shows it in its new state.
+     *
+     * @param index 0-based position of the task, as worked out by the {@link Parser}
+     * @throws FoodInputException if no task sits at that index
+     */
     public void markIncomplete(int index) throws FoodInputException {
         Task task = this.tasks.get(index, "unmark");
         task.markIncomplete();
         this.ui.showUnmarked(task);
     }
 
+    /** Shows every task, numbered from 1 as the user refers to them. */
     public void listTasks() {
         this.ui.showTaskList(this.tasks.asList());
     }
