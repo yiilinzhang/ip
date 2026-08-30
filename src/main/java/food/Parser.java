@@ -1,3 +1,7 @@
+package food;
+
+import food.exception.FoodInputException;
+
 /**
  * Makes sense of what the user typed.
  *

@@ -1,3 +1,8 @@
+package food.task;
+
+import food.exception.FoodInputException;
+import food.exception.FoodStorageException;
+
 /**
  * A single item on the user's list. Subclasses add the details specific to each kind of task.
  */

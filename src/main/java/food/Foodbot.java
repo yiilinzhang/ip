@@ -1,3 +1,13 @@
+package food;
+
+import food.exception.FoodInputException;
+import food.exception.FoodStorageException;
+import food.task.Deadline;
+import food.task.Event;
+import food.task.Task;
+import food.task.TaskList;
+import food.task.Todo;
+
 /**
  * The chatbot itself. It takes one line of user input at a time and drives the four parts that do
  * the actual work: the {@link Parser} that works out what the line means, the {@link TaskList}
