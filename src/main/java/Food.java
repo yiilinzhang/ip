@@ -1,29 +1,27 @@
-import java.util.Scanner;
-
 public class Food {
     public static void main(String[] args) {
-        Scanner userInput = new Scanner(System.in);
+        // One Ui for the whole program, shared with Foodbot, so System.in is read in one place.
+        Ui ui = new Ui();
 
         Foodbot food;
         try {
-            food = new Foodbot();
+            food = new Foodbot(ui);
         } catch (FoodStorageException e) {
             // Without a usable save file there is nothing to chat about, so report and stop.
-            System.out.println(e.getMessage());
+            ui.showError(e.getMessage());
             return;
         }
 
-        while (userInput.hasNextLine()) {
-            String input = userInput.nextLine();
+        while (ui.hasNextCommand()) {
+            String input = ui.readCommand();
             try {
                 if (!food.addInput(input)) {
                     break;
                 }
             } catch (FoodInputException e) {
-                System.out.println(e.getMessage());
+                ui.showError(e.getMessage());
             } catch (FoodStorageException e) {
-                System.out.println(e.getMessage());
-                e.printStackTrace();
+                ui.showLoadingError(e);
                 break;
             }
         }
