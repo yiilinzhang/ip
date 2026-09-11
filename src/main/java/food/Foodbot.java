@@ -1,5 +1,7 @@
 package food;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import food.exception.FoodInputException;
 import food.exception.FoodStorageException;
 import food.task.Deadline;
@@ -146,5 +148,30 @@ public class Foodbot {
     /** Shows every task, numbered from 1 as the user refers to them. */
     public void listTasks() {
         this.ui.showTaskList(this.tasks.asList());
+    }
+
+    /**
+     * Handles one line of input from the GUI and returns Foodbot's reply as text.
+     *
+     * <p>{@link Ui} prints straight to System.out, which suits the console version but not a GUI,
+     * so this temporarily redirects System.out to capture that text and returns it instead.
+     *
+     * @param input the raw line the user typed into the chat window.
+     * @return the reply to show in the chat window.
+     */
+    public String getResponse(String input) {
+        PrintStream originalOut = System.out;
+        ByteArrayOutputStream captured = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(captured));
+        try {
+            this.addInput(input);
+        } catch (FoodInputException e) {
+            this.ui.showError(e.getMessage());
+        } catch (FoodStorageException e) {
+            this.ui.showLoadingError(e);
+        } finally {
+            System.setOut(originalOut);
+        }
+        return captured.toString().trim();
     }
 }
