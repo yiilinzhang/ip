@@ -54,6 +54,12 @@ public class ParserTest {
                 Parser.parse("  list  "));
     }
 
+    @Test
+    public void parse_undoCommand_undoCommandReturned() throws FoodInputException {
+        assertEquals(new Command(CommandType.UNDO, Parser.NO_INDEX, "undo"),
+                Parser.parse("undo"));
+    }
+
     // --- mark / unmark / delete ---------------------------------------------
 
     @Test

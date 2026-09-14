@@ -2,6 +2,7 @@ package food;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.List;
 import food.exception.FoodInputException;
 import food.exception.FoodStorageException;
 import food.task.Deadline;
@@ -23,6 +24,11 @@ public class Foodbot {
     private final TaskList tasks;
     private final Storage storage;
     private final Ui ui;
+    /**
+     * The list as it was before the most recent change, or null when there is nothing to undo.
+     * Only one level is kept, so "undo" reverses the last change and no more.
+     */
+    private List<String> lastSnapshot = null;
 
     /**
      * Greets the user and loads any previously saved tasks.
@@ -51,6 +57,14 @@ public class Foodbot {
     public boolean addInput(String input) throws FoodInputException, FoodStorageException {
         Parser.Command command = Parser.parse(input);
 
+        boolean isMutating = switch (command.type()) {
+            case MARK, UNMARK, DELETE, ADD -> true;
+            case LIST, FIND, UNDO, EXIT -> false;
+        };
+        if (isMutating) {
+            this.lastSnapshot = this.tasks.snapshot();
+        }
+
         switch (command.type()) {
             case EXIT -> {
                 this.ui.showGoodbye();
@@ -62,6 +76,7 @@ public class Foodbot {
             case UNMARK -> this.markIncomplete(command.index());
             case DELETE -> this.deleteTask(command.index());
             case ADD -> this.addTask(command.rawInput());
+            case UNDO -> this.undoLastChange();
             default -> {
                 assert false : "Unhandled CommandType: " + command.type();
             }
@@ -74,6 +89,25 @@ public class Foodbot {
             this.storage.save(this.tasks.asList());
         }
         return true;
+    }
+
+    /**
+     * Puts the list back the way it was before the most recent change and shows the result.
+     *
+     * <p>The backup is cleared once used, so a second "undo" reports that there is nothing to
+     * undo rather than acting as a redo.
+     *
+     * @throws FoodInputException   if no change has been made since the program started, or the
+     *                              last change was already undone.
+     * @throws FoodStorageException if the backup could not be rebuilt, which is not expected.
+     */
+    public void undoLastChange() throws FoodInputException, FoodStorageException {
+        if (this.lastSnapshot == null) {
+            throw new FoodInputException("there's nothing to undo");
+        }
+        this.tasks.restore(this.lastSnapshot);
+        this.lastSnapshot = null;
+        this.ui.showUndone(this.tasks.asList());
     }
 
     /**

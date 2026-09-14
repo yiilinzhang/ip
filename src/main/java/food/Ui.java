@@ -19,6 +19,7 @@ public class Ui {
     private static final String LIST_TASK_MESSAGE = "Here are the tasks in your list:";
     private static final String FIND_TASK_MESSAGE = "Here are the matching tasks in your list:";
     private static final String NO_MATCH_MESSAGE = "No matching tasks in your list.";
+    private static final String UNDO_MESSAGE = "Undone! Here is your list now:";
     private static final String EXIT_MESSAGE = "Bye. Hope to see you soon!";
     private static final String ADD_TASK_MESSAGE = "Got it. I've added this task:";
     private static final String GREET_MESSAGE = "Hello! I am Food.\nWhat can I do for you?";
@@ -132,6 +133,17 @@ public class Ui {
             return;
         }
         System.out.println(FIND_TASK_MESSAGE);
+        this.showNumbered(tasks);
+    }
+
+    /**
+     * Confirms that the last change was reversed, and shows the whole list so the user can see
+     * what state it went back to.
+     *
+     * @param tasks the restored tasks, in list order.
+     */
+    public void showUndone(List<Task> tasks) {
+        System.out.println(UNDO_MESSAGE);
         this.showNumbered(tasks);
     }
 

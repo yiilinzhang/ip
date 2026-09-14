@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import food.exception.FoodInputException;
+import food.exception.FoodStorageException;
 
 /**
  * The tasks the user is keeping, together with the operations that change them.
@@ -98,6 +99,37 @@ public class TaskList {
      */
     public List<Task> asList() {
         return Collections.unmodifiableList(this.tasks);
+    }
+
+    /**
+     * Returns a copy of the list that a later {@link #restore} can bring back, so that a command
+     * can be undone.
+     *
+     * <p>The copy is made as save-format text rather than as Task objects. Tasks are mutable, so a
+     * list of the same objects would not be a backup at all: marking a task done would change the
+     * "backup" too. Text is immutable, and {@link Task#fromSaveFormat} already knows how to
+     * rebuild a task from it.
+     *
+     * @return one save-format line per task, in list order.
+     */
+    public List<String> snapshot() {
+        return this.tasks.stream()
+                .map(Task::toSaveFormat)
+                .toList();
+    }
+
+    /**
+     * Replaces every task with the ones rebuilt from an earlier {@link #snapshot}.
+     *
+     * @param snapshot the lines returned by {@link #snapshot}.
+     * @throws FoodStorageException if a line cannot be rebuilt, which cannot happen for a snapshot
+     *                              this class produced.
+     */
+    public void restore(List<String> snapshot) throws FoodStorageException {
+        this.tasks.clear();
+        for (String line : snapshot) {
+            this.tasks.add(Task.fromSaveFormat(line));
+        }
     }
 
     /**
