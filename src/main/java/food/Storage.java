@@ -29,6 +29,7 @@ class Storage {
      */
     public Storage() throws FoodStorageException {
         this.storagePath = Path.of("data", "tasks.md");
+        assert this.storagePath.getParent() != null : "storagePath must have a parent directory";
         try {
             Files.createDirectories(this.storagePath.getParent());
             // createFile throws if the file is already there, so only create it the first time.

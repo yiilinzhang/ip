@@ -62,6 +62,9 @@ public class Foodbot {
             case UNMARK -> this.markIncomplete(command.index());
             case DELETE -> this.deleteTask(command.index());
             case ADD -> this.addTask(command.rawInput());
+            default -> {
+                assert false : "Unhandled CommandType: " + command.type();
+            }
         }
 
         // "list" and "find" only read, so there is nothing new to write for them.
