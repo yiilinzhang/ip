@@ -27,9 +27,9 @@ public class Event extends Task {
      * accepted; adding that check would be a reasonable extension.
      *
      * @param task the full line, which must look like
-     *             "event &lt;description&gt; /from &lt;date&gt; /to &lt;date&gt;"
+     *             "event &lt;description&gt; /from &lt;date&gt; /to &lt;date&gt;".
      * @throws FoodInputException if the line does not match that shape, the description is blank,
-     *                            or either date is not a real date in yyyy-mm-dd form
+     *                            or either date is not a real date in yyyy-mm-dd form.
      */
     public Event(String task) throws FoodInputException {
         Pattern p = Pattern.compile("^event (?<name>.+?) /from (?<from>.+?) /to (?<to>.+)$");
@@ -53,7 +53,7 @@ public class Event extends Task {
      * Returns the task as the user sees it, e.g.
      * "[E] [X] camp (from: 7/9/2026 to: 9/9/2026)".
      *
-     * @return the symbol, the status and description from {@link Task#toString}, and both dates
+     * @return the symbol, the status and description from {@link Task#toString}, and both dates.
      */
     @Override
     public String toString() {

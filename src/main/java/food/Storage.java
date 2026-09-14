@@ -25,7 +25,7 @@ class Storage {
      * <p>The path is relative, so the save file is created in whichever directory the program is
      * started from.
      *
-     * @throws FoodStorageException if the file or its folder could not be created
+     * @throws FoodStorageException if the file or its folder could not be created.
      */
     public Storage() throws FoodStorageException {
         this.storagePath = Path.of("data", "tasks.md");

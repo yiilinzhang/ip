@@ -20,8 +20,8 @@ public class Todo extends Task {
      * <p>The named group in the pattern ("name") is what the description is read from; naming the
      * group rather than counting brackets keeps the code readable if the pattern grows.
      *
-     * @param task the full line, which must look like "todo &lt;description&gt;"
-     * @throws FoodInputException if the line does not match that shape, or the description is blank
+     * @param task the full line, which must look like "todo &lt;description&gt;".
+     * @throws FoodInputException if the line does not match that shape, or the description is blank.
      */
     public Todo(String task) throws FoodInputException {
         Pattern p = Pattern.compile("^todo (?<name>.+?)$");
@@ -37,7 +37,7 @@ public class Todo extends Task {
      * Returns the task as the user sees it, e.g. "[T] [X] read book".
      *
      * @return the symbol for this kind of task, followed by the status and description from
-     *         {@link Task#toString}
+     *         {@link Task#toString}.
      */
     @Override
     public String toString() {
