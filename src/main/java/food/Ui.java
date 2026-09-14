@@ -38,7 +38,7 @@ public class Ui {
      * <p>Callers must check this before readCommand: when input runs out (Ctrl-D, or piped input
      * that ends without the exit phrase) reading anyway throws NoSuchElementException.
      *
-     * @return true if a line is waiting to be read, false once input has run out
+     * @return true if a line is waiting to be read, false once input has run out.
      */
     public boolean hasNextCommand() {
         return this.scanner.hasNextLine();
@@ -47,7 +47,7 @@ public class Ui {
     /**
      * Reads the next line the user typed.
      *
-     * @return the raw line, untrimmed, for the {@link Parser} to make sense of
+     * @return the raw line, untrimmed, for the {@link Parser} to make sense of.
      */
     public String readCommand() {
         return this.scanner.nextLine();
@@ -66,8 +66,8 @@ public class Ui {
     /**
      * Confirms that a task was added, and says how many there are now.
      *
-     * @param task  the task just added
-     * @param total how many tasks the list now holds
+     * @param task  the task just added.
+     * @param total how many tasks the list now holds.
      */
     public void showTaskAdded(Task task, int total) {
         System.out.println(String.format("%s\n%s\nNow you have %d tasks in the list.",
@@ -77,8 +77,8 @@ public class Ui {
     /**
      * Confirms that a task was removed, and says how many are left.
      *
-     * @param task      the task just removed
-     * @param remaining how many tasks are left
+     * @param task      the task just removed.
+     * @param remaining how many tasks are left.
      */
     public void showTaskDeleted(Task task, int remaining) {
         System.out.println(String.format(
@@ -90,7 +90,7 @@ public class Ui {
     /**
      * Confirms that a task is now done, showing it in its new state.
      *
-     * @param task the task just marked
+     * @param task the task just marked.
      */
     public void showMarked(Task task) {
         System.out.println(String.format("%s\n%s", COMPLETE_MESSAGE, task));
@@ -99,7 +99,7 @@ public class Ui {
     /**
      * Confirms that a task is now not done, showing it in its new state.
      *
-     * @param task the task just unmarked
+     * @param task the task just unmarked.
      */
     public void showUnmarked(Task task) {
         System.out.println(String.format("%s\n%s", INCOMPLETE_MESSAGE, task));
@@ -111,7 +111,7 @@ public class Ui {
      * <p>Numbering starts at 1 because that is how the user refers to tasks in commands such as
      * "mark 2"; the {@link Parser} converts that back to a 0-based index.
      *
-     * @param tasks the tasks to show, in list order
+     * @param tasks the tasks to show, in list order.
      */
     public void showTaskList(List<Task> tasks) {
         System.out.println(LIST_TASK_MESSAGE);
@@ -152,7 +152,7 @@ public class Ui {
     /**
      * Reports a recoverable problem, such as a command the user mistyped.
      *
-     * @param message the explanation to show; the program carries on afterwards
+     * @param message the explanation to show; the program carries on afterwards.
      */
     public void showError(String message) {
         System.out.println(message);
@@ -162,7 +162,7 @@ public class Ui {
      * Reports a save-file failure, which is not the user's fault and ends the session.
      * The stack trace is printed because the chained cause is what makes it diagnosable.
      *
-     * @param e the storage failure to report
+     * @param e the storage failure to report.
      */
     public void showLoadingError(FoodStorageException e) {
         System.out.println(e.getMessage());

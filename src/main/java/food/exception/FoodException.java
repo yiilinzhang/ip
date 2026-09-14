@@ -12,7 +12,7 @@ public class FoodException extends Exception {
     /**
      * Creates an exception carrying a message meant to be shown to the user.
      *
-     * @param msg the explanation to show
+     * @param msg the explanation to show.
      */
     public FoodException(String msg) {
         super(msg);

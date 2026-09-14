@@ -23,10 +23,10 @@ public class Task {
      * Creates a task. Called through {@code super(...)} by each subclass once it has picked the
      * description out of the user's line.
      *
-     * @param title the description to show the user
-     * @param input the untouched line the user typed, used later when saving
+     * @param title the description to show the user.
+     * @param input the untouched line the user typed, used later when saving.
      * @throws FoodInputException if the description is empty or only spaces, which almost always
-     *                            means the user left the description off
+     *                            means the user left the description off.
      */
     public Task(String title, String input) throws FoodInputException {
         if (title.isBlank()) {
@@ -42,7 +42,7 @@ public class Task {
      * <p>The completed flag is written as 0 or 1 in front of the original input, because the
      * input alone does not record whether the task was later marked done.
      *
-     * @return the line to write to the save file
+     * @return the line to write to the save file.
      */
     public String toSaveFormat() {
         return String.format("%d | %s", this.isCompleted ? 1 : 0, this.input);
@@ -114,7 +114,7 @@ public class Task {
      * Returns the status and description, e.g. "[X] read book" when done and "[] read book" when
      * not. Each subclass prepends its own symbol to this.
      *
-     * @return the shared part of the display form
+     * @return the shared part of the display form.
      */
     @Override
     public String toString() {

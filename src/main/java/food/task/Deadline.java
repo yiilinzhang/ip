@@ -21,9 +21,9 @@ public class Deadline extends Task {
     /**
      * Creates a Deadline from the line the user typed.
      *
-     * @param task the full line, which must look like "deadline &lt;description&gt; /by &lt;date&gt;"
+     * @param task the full line, which must look like "deadline &lt;description&gt; /by &lt;date&gt;".
      * @throws FoodInputException if the line does not match that shape, the description is blank,
-     *                            or the date is not a real date in yyyy-mm-dd form
+     *                            or the date is not a real date in yyyy-mm-dd form.
      */
     public Deadline(String task) throws FoodInputException {
         Pattern p = Pattern.compile("^deadline (?<name>.+?) /by (?<by>.+?)$");
@@ -47,7 +47,7 @@ public class Deadline extends Task {
      * <p>The date is shown as d/m/yyyy even though it is typed as yyyy-mm-dd: the input form is
      * unambiguous to parse, the output form is the one the user reads more easily.
      *
-     * @return the symbol, the status and description from {@link Task#toString}, and the due date
+     * @return the symbol, the status and description from {@link Task#toString}, and the due date.
      */
     @Override
     public String toString() {
