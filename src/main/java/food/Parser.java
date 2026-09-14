@@ -16,7 +16,7 @@ import food.exception.FoodInputException;
 public class Parser {
 
     /** The kinds of thing Food can be asked to do. */
-    public enum CommandType { LIST, FIND, MARK, UNMARK, DELETE, ADD, EXIT }
+    public enum CommandType { LIST, FIND, MARK, UNMARK, DELETE, ADD, UNDO, EXIT }
 
     /** The index carried by commands that do not refer to a particular task. */
     public static final int NO_INDEX = -1;
@@ -56,6 +56,7 @@ public class Parser {
         // Arrow labels: each case produces its own value, so no break/fall-through.
         return switch (command) {
             case "list" -> new Command(CommandType.LIST, NO_INDEX, input);
+            case "undo" -> new Command(CommandType.UNDO, NO_INDEX, input);
             case "mark" -> new Command(CommandType.MARK, parseTaskIndex(parts), input);
             case "unmark" -> new Command(CommandType.UNMARK, parseTaskIndex(parts), input);
             case "delete" -> new Command(CommandType.DELETE, parseTaskIndex(parts), input);

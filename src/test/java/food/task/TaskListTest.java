@@ -5,13 +5,17 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 import org.junit.jupiter.api.Test;
+import food.exception.FoodException;
 import food.exception.FoodInputException;
 
 /**
- * Tests {@link TaskList#find(String)}.
+ * Tests {@link TaskList#find(String)} and the {@link TaskList#snapshot()} /
+ * {@link TaskList#restore(List)} pair behind "undo".
  *
  * <p>The search is worth testing on its own because it is the one part of the feature with real
  * logic: matching is case-insensitive and looks only at the description, never at the dates.
+ * Snapshot and restore are tested together because a snapshot is only useful if restoring it
+ * really brings the earlier list back, including after the tasks themselves were changed.
  */
 public class TaskListTest {
 
@@ -58,5 +62,65 @@ public class TaskListTest {
     @Test
     public void find_emptyList_emptyListReturned() {
         assertTrue(new TaskList().find("book").isEmpty());
+    }
+
+    // --- snapshot / restore -------------------------------------------------
+
+    @Test
+    public void snapshot_sampleList_oneSaveFormatLinePerTask() throws FoodInputException {
+        List<String> snapshot = this.buildSampleList().snapshot();
+
+        assertEquals(List.of(
+                "0 | todo read book",
+                "0 | deadline return book /by 2026-09-07",
+                "0 | todo buy milk"), snapshot);
+    }
+
+    @Test
+    public void restore_afterAddAndDelete_originalListBack() throws FoodException {
+        TaskList tasks = this.buildSampleList();
+        List<String> before = tasks.snapshot();
+        tasks.add(new Todo("todo walk dog"));
+        tasks.delete(0, "delete");
+
+        tasks.restore(before);
+
+        assertEquals(3, tasks.size());
+        assertEquals("[T] [] read book", tasks.get(0, "mark").toString());
+        assertEquals("[T] [] buy milk", tasks.get(2, "mark").toString());
+    }
+
+    @Test
+    public void restore_afterMarkingTask_taskIsUnmarkedAgain() throws FoodException {
+        // The important case: the snapshot must not share Task objects with the live list,
+        // or marking the live task would mark the "backup" too.
+        TaskList tasks = this.buildSampleList();
+        List<String> before = tasks.snapshot();
+        tasks.get(0, "mark").markComplete();
+
+        tasks.restore(before);
+
+        assertEquals("[T] [] read book", tasks.get(0, "mark").toString());
+    }
+
+    @Test
+    public void restore_completedTaskInSnapshot_staysCompleted() throws FoodException {
+        TaskList tasks = this.buildSampleList();
+        tasks.get(1, "mark").markComplete();
+        List<String> before = tasks.snapshot();
+        tasks.get(1, "unmark").markIncomplete();
+
+        tasks.restore(before);
+
+        assertEquals("[D] [X] return book (by: 7/9/2026)", tasks.get(1, "mark").toString());
+    }
+
+    @Test
+    public void restore_emptySnapshot_listEmptied() throws FoodException {
+        TaskList tasks = this.buildSampleList();
+
+        tasks.restore(List.of());
+
+        assertEquals(0, tasks.size());
     }
 }
