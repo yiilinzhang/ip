@@ -27,6 +27,8 @@ public class MainWindow extends AnchorPane {
     /** Keeps the scroll pane pinned to the newest message as the conversation grows. */
     @FXML
     public void initialize() {
+        assert scrollPane != null && dialogContainer != null : "MainWindow.fxml must define fx:id "
+                + "\"scrollPane\" and \"dialogContainer\" matching the fields in this class";
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
     }
 
@@ -38,6 +40,9 @@ public class MainWindow extends AnchorPane {
     /** Appends the user's message and Foodbot's reply, then clears the input field. */
     @FXML
     private void handleUserInput() {
+        // Main calls setFoodbot() right after loading the FXML and before showing the stage, so
+        // the user cannot type into a shown window before foodbot is set.
+        assert foodbot != null : "setFoodbot(...) must be called before the window is shown";
         String userText = userInput.getText();
         String foodbotText = foodbot.getResponse(userText);
         dialogContainer.getChildren().addAll(
