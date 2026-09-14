@@ -37,7 +37,10 @@ public class Event extends Task {
         if (!m.matches()) {
             throw new FoodInputException("hey that's not a right format...");
         }
+        assert m.group("name") != null : "a full match must capture the mandatory \"name\" group";
         super(m.group("name"), task);
+        assert m.group("from") != null : "a full match must capture the mandatory \"from\" group";
+        assert m.group("to") != null : "a full match must capture the mandatory \"to\" group";
         try {
             this.to = LocalDate.parse(m.group("to"));
             this.from = LocalDate.parse(m.group("from"));

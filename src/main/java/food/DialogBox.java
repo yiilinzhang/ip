@@ -29,6 +29,8 @@ public class DialogBox extends HBox {
             e.printStackTrace();
         }
 
+        assert dialog != null && displayPicture != null : "DialogBox.fxml must define fx:id "
+                + "\"dialog\" and \"displayPicture\" matching the fields in this class";
         dialog.setText(text);
         displayPicture.setImage(image);
     }

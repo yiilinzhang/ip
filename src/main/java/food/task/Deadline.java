@@ -31,7 +31,9 @@ public class Deadline extends Task {
         if (!m.matches()) {
             throw new FoodInputException("hey that's not a right format...");
         }
+        assert m.group("name") != null : "a full match must capture the mandatory \"name\" group";
         super(m.group("name"), task);
+        assert m.group("by") != null : "a full match must capture the mandatory \"by\" group";
         try {
             // Accepts YYYY-MM-DD
             this.by = LocalDate.parse(m.group("by"));
