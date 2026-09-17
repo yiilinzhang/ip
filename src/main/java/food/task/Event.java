@@ -35,7 +35,8 @@ public class Event extends Task {
         Pattern p = Pattern.compile("^event (?<name>.+?) /from (?<from>.+?) /to (?<to>.+)$");
         Matcher m = p.matcher(task);
         if (!m.matches()) {
-            throw new FoodInputException("hey that's not a right format...");
+            throw new FoodInputException("That's not how we write a ticket, chef. "
+                    + "Try: event <description> /from <date> /to <date>");
         }
         assert m.group("name") != null : "a full match must capture the mandatory \"name\" group";
         super(m.group("name"), task);
@@ -45,7 +46,8 @@ public class Event extends Task {
             this.to = LocalDate.parse(m.group("to"));
             this.from = LocalDate.parse(m.group("from"));
         } catch (DateTimeParseException e) {
-            throw new FoodInputException("I need the date as yyyy-mm-dd, e.g. /by 2026-09-07", e);
+            throw new FoodInputException(
+                    "Dates go on the ticket as yyyy-mm-dd, chef, e.g. /from 2026-09-07", e);
         }
     }
 

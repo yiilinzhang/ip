@@ -12,7 +12,10 @@
         <Insets bottom="5" left="5" right="5" top="5"/>
     </padding>
     <children>
-        <Label fx:id="dialog" minHeight="-Infinity" prefWidth="240.0" wrapText="true"/>
-        <ImageView fx:id="displayPicture" fitHeight="99.0" fitWidth="99.0" preserveRatio="true"/>
+        <!-- The "dialog-label" class gives both speakers the same bubble shape; DialogBox.java adds
+             "user-label" or "chef-label" on top to pick the colour and font. -->
+        <Label fx:id="dialog" minHeight="-Infinity" prefWidth="260.0" wrapText="true" styleClass="dialog-label"/>
+        <ImageView fx:id="displayPicture" fitHeight="64.0" fitWidth="64.0" preserveRatio="true"
+                   styleClass="avatar"/>
     </children>
 </fx:root>

@@ -27,7 +27,7 @@ public class Todo extends Task {
         Pattern p = Pattern.compile("^todo (?<name>.+?)$");
         Matcher m = p.matcher(task);
         if (!m.matches()) {
-            throw new FoodInputException("hey that's not a right format...");
+            throw new FoodInputException("That's not how we write a ticket, chef. Try: todo <description>");
         }
         assert m.group("name") != null : "a full match must capture the mandatory \"name\" group";
         super(m.group("name"), task);

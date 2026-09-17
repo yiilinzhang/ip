@@ -64,13 +64,14 @@ public class Parser {
                 // Only the shape is checked here; the keyword itself is read back out of
                 // rawInput, the same way ADD leaves the details to Todo, Deadline and Event.
                 if (parts.length < 2) {
-                    throw new FoodInputException("find has to be followed by a keyword");
+                    throw new FoodInputException("find needs a keyword, chef. What am I looking for?");
                 }
                 yield new Command(CommandType.FIND, NO_INDEX, input);
             }
             case "todo", "deadline", "event" -> new Command(CommandType.ADD, NO_INDEX, input);
             default -> throw new FoodInputException(
-                    "OOPS!!! I'm sorry, but I don't know what that means :-(");
+                    "That's not on my menu, chef. I know: todo, deadline, event, list, find,\n"
+                    + "mark, unmark, delete and undo.");
         };
     }
 
@@ -85,14 +86,13 @@ public class Parser {
     private static int parseTaskIndex(String[] parts) throws FoodInputException {
         String command = parts[0];
         if (parts.length != 2) {
-            throw new FoodInputException(String.format("%s has to be followed by exactly one task number",
-                    command));
+            throw new FoodInputException(String.format("%s needs exactly one order number, chef", command));
         }
         try {
             return Integer.parseInt(parts[1]) - 1;
         } catch (NumberFormatException e) {
             throw new FoodInputException(
-                    String.format("%s has to be followed by a number", command), e);
+                    String.format("%s needs an order number, chef. Which one?", command), e);
         }
     }
 

@@ -23,9 +23,10 @@
                 </VBox>
             </content>
         </ScrollPane>
-        <Button fx:id="sendButton" mnemonicParsing="false" onAction="#handleUserInput" text="Send"
+        <Button fx:id="sendButton" mnemonicParsing="false" onAction="#handleUserInput" text="Order up!"
                 AnchorPane.bottomAnchor="1.0" AnchorPane.rightAnchor="1.0"/>
-        <TextField fx:id="userInput" onAction="#handleUserInput" prefWidth="325.0"
+        <TextField fx:id="userInput" onAction="#handleUserInput" prefWidth="310.0"
+                   promptText="What's the order, chef?"
                    AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="1.0"/>
     </children>
 </AnchorPane>

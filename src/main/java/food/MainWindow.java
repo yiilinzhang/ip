@@ -21,8 +21,8 @@ public class MainWindow extends AnchorPane {
 
     private Foodbot foodbot;
 
-    private final Image userImage = new Image(this.getClass().getResourceAsStream("/images/DaUser.png"));
-    private final Image foodbotImage = new Image(this.getClass().getResourceAsStream("/images/DaFoodbot.png"));
+    private final Image userImage = new Image(this.getClass().getResourceAsStream("/images/Diner.png"));
+    private final Image foodbotImage = new Image(this.getClass().getResourceAsStream("/images/ChefFood.png"));
 
     /** Keeps the scroll pane pinned to the newest message as the conversation grows. */
     @FXML

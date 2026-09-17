@@ -18,8 +18,13 @@ public class Main extends Application {
             AnchorPane root = fxmlLoader.load();
             fxmlLoader.<MainWindow>getController().setFoodbot(foodbot);
 
-            stage.setTitle("Foodbot");
-            stage.setScene(new Scene(root));
+            Scene scene = new Scene(root);
+            // All colours and fonts live in the stylesheet, so the look can change without
+            // touching Java code.
+            scene.getStylesheets().add(Main.class.getResource("/css/kitchen.css").toExternalForm());
+
+            stage.setTitle("Chef Food's Kitchen");
+            stage.setScene(scene);
             stage.show();
         } catch (IOException | FoodStorageException e) {
             e.printStackTrace();

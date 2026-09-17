@@ -29,7 +29,8 @@ public class Deadline extends Task {
         Pattern p = Pattern.compile("^deadline (?<name>.+?) /by (?<by>.+?)$");
         Matcher m = p.matcher(task);
         if (!m.matches()) {
-            throw new FoodInputException("hey that's not a right format...");
+            throw new FoodInputException("That's not how we write a ticket, chef. "
+                    + "Try: deadline <description> /by <date>");
         }
         assert m.group("name") != null : "a full match must capture the mandatory \"name\" group";
         super(m.group("name"), task);
@@ -39,7 +40,7 @@ public class Deadline extends Task {
             this.by = LocalDate.parse(m.group("by"));
         } catch (DateTimeParseException e) {
             throw new FoodInputException(
-                    "I need the date as yyyy-mm-dd, e.g. /by 2026-09-07", e);
+                    "Dates go on the ticket as yyyy-mm-dd, chef, e.g. /by 2026-09-07", e);
         }
     }
 
