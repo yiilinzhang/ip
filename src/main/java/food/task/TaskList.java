@@ -139,7 +139,7 @@ public class TaskList {
     private void checkIndex(int index, String action) throws FoodInputException {
         if (index < 0 || index >= this.tasks.size()) {
             throw new FoodInputException(
-                    String.format("hey that's not a valid index to %s", action));
+                    String.format("There's no order with that number to %s, chef", action));
         }
     }
 }

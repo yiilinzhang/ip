@@ -14,21 +14,28 @@ import food.task.Task;
  * changing the wording, or later swapping the console for a GUI, touches only this file.
  */
 public class Ui {
-    private static final String COMPLETE_MESSAGE = "Nice! I've marked this task as done";
-    private static final String INCOMPLETE_MESSAGE = "OK, I've marked this task as not done yet:";
-    private static final String LIST_TASK_MESSAGE = "Here are the tasks in your list:";
-    private static final String FIND_TASK_MESSAGE = "Here are the matching tasks in your list:";
-    private static final String NO_MATCH_MESSAGE = "No matching tasks in your list.";
-    private static final String UNDO_MESSAGE = "Undone! Here is your list now:";
-    private static final String EXIT_MESSAGE = "Bye. Hope to see you soon!";
-    private static final String ADD_TASK_MESSAGE = "Got it. I've added this task:";
-    private static final String GREET_MESSAGE = "Hello! I am Food.\nWhat can I do for you?";
+    // Chef Food talks like a head chef running a busy kitchen: tasks are "orders" on the "board",
+    // finishing one is "plating" it, and removing one is "86-ing" it (kitchen slang for taking a
+    // dish off the menu). The user is addressed as "chef", as everyone in a kitchen is.
+    private static final String COMPLETE_MESSAGE = "Plated and served! This order is done:";
+    private static final String INCOMPLETE_MESSAGE = "Back on the fire. This order is not done yet:";
+    private static final String LIST_TASK_MESSAGE = "Here's everything on the board tonight:";
+    private static final String FIND_TASK_MESSAGE = "Here's what matches on the board:";
+    private static final String NO_MATCH_MESSAGE = "Nothing like that on the board, chef.";
+    private static final String UNDO_MESSAGE = "Sent back! The board now reads:";
+    private static final String EXIT_MESSAGE = "Service is over. Go get some rest, chef!";
+    private static final String ADD_TASK_MESSAGE = "Order up! Added to the board:";
+    private static final String DELETE_TASK_MESSAGE = "86 that! Off the board it goes:";
+    private static final String COUNT_MESSAGE = "That's %d order%s on the board.";
+    private static final String GREET_MESSAGE = "Welcome to the kitchen! I'm Chef Food.\n"
+            + "What's on the order today, chef?";
     private static final String BANNER_MESSAGE = "  _______  _______  _______  ______  \n"
             + " |   ____||   __  ||   __  ||      \\ \n"
             + " |  |___  |  |  | ||  |  | ||  ---  |\n"
             + " |   ___| |  |  | ||  |  | ||  |  | |\n"
             + " |  |     |  |__| ||  |__| ||  ---  |\n"
-            + " |__|     |_______||_______||______/ \n";
+            + " |__|     |_______||_______||______/ \n"
+            + "        ~ Chef Food's Kitchen ~      \n";
 
     /** The single reader of System.in. Two Scanners over one stream would lose buffered input. */
     private final Scanner scanner = new Scanner(System.in);
@@ -71,8 +78,7 @@ public class Ui {
      * @param total how many tasks the list now holds.
      */
     public void showTaskAdded(Task task, int total) {
-        System.out.println(String.format("%s\n%s\nNow you have %d tasks in the list.",
-                ADD_TASK_MESSAGE, task, total));
+        System.out.println(String.format("%s\n%s\n%s", ADD_TASK_MESSAGE, task, countOrders(total)));
     }
 
     /**
@@ -82,10 +88,19 @@ public class Ui {
      * @param remaining how many tasks are left.
      */
     public void showTaskDeleted(Task task, int remaining) {
-        System.out.println(String.format(
-                "Noted. I've removed this task: \n%s\nNow you have %d tasks in the list.",
-                task,
-                remaining));
+        System.out.println(String.format("%s\n%s\n%s",
+                DELETE_TASK_MESSAGE, task, countOrders(remaining)));
+    }
+
+    /**
+     * Words the "how many orders are on the board" line, e.g. "That's 1 order on the board."
+     *
+     * @param count the number of tasks in the list.
+     * @return the sentence, with "order" pluralized to match the count.
+     */
+    private static String countOrders(int count) {
+        String plural = count == 1 ? "" : "s";
+        return String.format(COUNT_MESSAGE, count, plural);
     }
 
     /**

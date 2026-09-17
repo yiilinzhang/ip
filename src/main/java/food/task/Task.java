@@ -30,7 +30,7 @@ public class Task {
      */
     public Task(String title, String input) throws FoodInputException {
         if (title.isBlank()) {
-            throw new FoodInputException("not sure why you want an empty task");
+            throw new FoodInputException("An empty order? I can't cook nothing, chef.");
         }
         this.input = input;
         this.title = title;

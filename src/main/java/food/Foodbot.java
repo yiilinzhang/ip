@@ -103,7 +103,7 @@ public class Foodbot {
      */
     public void undoLastChange() throws FoodInputException, FoodStorageException {
         if (this.lastSnapshot == null) {
-            throw new FoodInputException("there's nothing to undo");
+            throw new FoodInputException("Nothing to send back, chef. The board hasn't changed.");
         }
         this.tasks.restore(this.lastSnapshot);
         this.lastSnapshot = null;
@@ -129,7 +129,7 @@ public class Foodbot {
             case "deadline" -> new Deadline(input);
             case "event" -> new Event(input);
             default -> throw new FoodInputException(
-                    String.format("%s is not a kind of task I can add", parts[0]));
+                    String.format("%s is not a dish I know how to make, chef", parts[0]));
         };
         this.tasks.add(addedTask);
         this.ui.showTaskAdded(addedTask, this.tasks.size());

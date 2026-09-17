@@ -43,14 +43,17 @@ public class DialogBox extends HBox {
         this.getChildren().setAll(tmp);
     }
 
-    /** Creates a right-aligned bubble for something the user typed. */
+    /** Creates a right-aligned, tomato-red bubble for something the user typed. */
     public static DialogBox getUserDialog(String text, Image image) {
-        return new DialogBox(text, image);
+        DialogBox db = new DialogBox(text, image);
+        db.dialog.getStyleClass().add("user-label");
+        return db;
     }
 
-    /** Creates a left-aligned bubble for one of Foodbot's replies. */
+    /** Creates a left-aligned bubble styled as a kitchen order ticket for one of Chef Food's replies. */
     public static DialogBox getFoodbotDialog(String text, Image image) {
         DialogBox db = new DialogBox(text, image);
+        db.dialog.getStyleClass().add("chef-label");
         db.flip();
         return db;
     }

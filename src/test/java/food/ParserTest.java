@@ -89,7 +89,7 @@ public class ParserTest {
     public void parse_markWithoutTaskNumber_exceptionThrown() {
         FoodInputException e =
                 assertThrows(FoodInputException.class, () -> Parser.parse("mark"));
-        assertEquals("mark has to be followed by exactly one task number", e.getMessage());
+        assertEquals("mark needs exactly one order number, chef", e.getMessage());
     }
 
     @Test
@@ -108,7 +108,7 @@ public class ParserTest {
     public void parse_markWithNonNumericArgument_exceptionThrown() {
         FoodInputException e =
                 assertThrows(FoodInputException.class, () -> Parser.parse("mark two"));
-        assertEquals("mark has to be followed by a number", e.getMessage());
+        assertEquals("mark needs an order number, chef. Which one?", e.getMessage());
     }
 
     @Test
@@ -163,7 +163,7 @@ public class ParserTest {
     public void parse_findWithoutKeyword_exceptionThrown() {
         FoodInputException e =
                 assertThrows(FoodInputException.class, () -> Parser.parse("find"));
-        assertEquals("find has to be followed by a keyword", e.getMessage());
+        assertEquals("find needs a keyword, chef. What am I looking for?", e.getMessage());
     }
 
     // --- unknown input ------------------------------------------------------
@@ -172,7 +172,8 @@ public class ParserTest {
     public void parse_unknownCommand_exceptionThrown() {
         FoodInputException e =
                 assertThrows(FoodInputException.class, () -> Parser.parse("blah"));
-        assertEquals("OOPS!!! I'm sorry, but I don't know what that means :-(", e.getMessage());
+        assertEquals("That's not on my menu, chef. I know: todo, deadline, event, list, find,\n"
+                + "mark, unmark, delete and undo.", e.getMessage());
     }
 
     @Test
