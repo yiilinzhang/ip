@@ -37,7 +37,7 @@ class Storage {
                 Files.createFile(this.storagePath);
             }
         } catch (IOException e) {
-            throw new FoodStorageException("Error creating save file", e);
+            throw new FoodStorageException("Could not create the save file " + this.storagePath, e);
         }
     }
 
@@ -52,7 +52,7 @@ class Storage {
             List<String> saveList = taskList.stream().map(Task::toSaveFormat).toList();
             Files.write(storagePath, saveList);
         } catch (IOException e) {
-            throw new FoodStorageException("Error saving to storage", e);
+            throw new FoodStorageException("Could not write to the save file " + this.storagePath, e);
         }
     }
 
@@ -67,12 +67,17 @@ class Storage {
         try {
             savedLines = Files.readAllLines(this.storagePath);
         } catch (IOException e) {
-            throw new FoodStorageException("Error retrieving saved files", e);
+            throw new FoodStorageException("Could not read the save file " + this.storagePath, e);
         }
         // A plain loop rather than a stream, because fromSaveFormat throws a checked
         // exception and lambdas cannot propagate those.
         List<Task> tasks = new ArrayList<>();
         for (String line : savedLines) {
+            // A hand-edited save file often ends up with blank lines; they carry no task, so they
+            // are skipped rather than reported as corruption.
+            if (line.isBlank()) {
+                continue;
+            }
             tasks.add(Task.fromSaveFormat(line));
         }
         return tasks;

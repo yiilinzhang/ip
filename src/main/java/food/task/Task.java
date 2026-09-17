@@ -100,6 +100,33 @@ public class Task {
         return this.title.toLowerCase().contains(keyword.toLowerCase());
     }
 
+    /**
+     * Returns whether this task and another were created from the same command line, i.e. the
+     * user is adding something already on the list. Whether either is done is ignored, since
+     * "read book" is the same task whether or not it has been finished.
+     *
+     * @param other the task to compare with.
+     * @return true if both were typed identically.
+     */
+    public boolean isSameAs(Task other) {
+        return this.input.equals(other.input);
+    }
+
+    /**
+     * Rejects a command line that gives the same parameter twice, e.g. "deadline x /by 1 /by 2".
+     * Left unchecked, the regex would silently swallow the second copy into the first value and
+     * produce a confusing date error instead.
+     *
+     * @param input the full command line.
+     * @param flag  the parameter marker to look for, e.g. "/by".
+     * @throws FoodInputException if the marker appears more than once.
+     */
+    protected static void rejectRepeated(String input, String flag) throws FoodInputException {
+        if (input.split(" " + flag + " ", -1).length > 2) {
+            throw new FoodInputException(String.format("One %s per ticket, chef.", flag));
+        }
+    }
+
     /** Marks this task done. Marking an already-done task again changes nothing. */
     public void markComplete() {
         this.isCompleted = true;

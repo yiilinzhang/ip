@@ -23,15 +23,15 @@ public class Event extends Task {
     /**
      * Creates an Event from the line the user typed.
      *
-     * <p>The two dates are not checked against each other, so a "from" later than a "to" is
-     * accepted; adding that check would be a reasonable extension.
-     *
      * @param task the full line, which must look like
      *             "event &lt;description&gt; /from &lt;date&gt; /to &lt;date&gt;".
-     * @throws FoodInputException if the line does not match that shape, the description is blank,
-     *                            or either date is not a real date in yyyy-mm-dd form.
+     * @throws FoodInputException if the line does not match that shape, gives /from or /to twice,
+     *                            the description is blank, either date is not a real date in
+     *                            yyyy-mm-dd form, or the event ends before it starts.
      */
     public Event(String task) throws FoodInputException {
+        rejectRepeated(task, "/from");
+        rejectRepeated(task, "/to");
         Pattern p = Pattern.compile("^event (?<name>.+?) /from (?<from>.+?) /to (?<to>.+)$");
         Matcher m = p.matcher(task);
         if (!m.matches()) {
@@ -48,6 +48,10 @@ public class Event extends Task {
         } catch (DateTimeParseException e) {
             throw new FoodInputException(
                     "Dates go on the ticket as yyyy-mm-dd, chef, e.g. /from 2026-09-07", e);
+        }
+        // Same-day events are allowed: a one-day event starts and ends on the same date.
+        if (this.from.isAfter(this.to)) {
+            throw new FoodInputException("An event can't end before it starts, chef.");
         }
     }
 
