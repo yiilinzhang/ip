@@ -31,8 +31,8 @@ public class Parser {
      *
      * @param type     what was asked for.
      * @param index    0-based task index for MARK, UNMARK and DELETE; {@link #NO_INDEX} otherwise.
-     * @param rawInput the untouched line, which ADD needs because Todo, Deadline and Event read
-     *                 the details out of it themselves.
+     * @param rawInput the line with surrounding and repeated spaces removed, which ADD needs
+     *                 because Todo, Deadline and Event read the details out of it themselves.
      */
     public record Command(CommandType type, int index, String rawInput) {}
 
@@ -45,30 +45,39 @@ public class Parser {
      *                            task number when it needs one.
      */
     public static Command parse(String input) throws FoodInputException {
-        // Checked before splitting, since the exit phrase is several words long.
-        if (input.equals(EXIT_PHRASE)) {
-            return new Command(CommandType.EXIT, NO_INDEX, input);
+        // Leading, trailing and repeated spaces are almost always typos, so they are removed once
+        // here and every later stage (this switch, the task constructors, the save file) sees a
+        // clean single-spaced line.
+        String cleaned = input.strip().replaceAll("\\s+", " ");
+
+        if (cleaned.isEmpty()) {
+            throw new FoodInputException("Speak up, chef. I didn't catch an order.");
         }
 
-        String[] parts = input.trim().split(" ");
+        // Checked before splitting, since the exit phrase is several words long.
+        if (cleaned.equals(EXIT_PHRASE)) {
+            return new Command(CommandType.EXIT, NO_INDEX, cleaned);
+        }
+
+        String[] parts = cleaned.split(" ");
         String command = parts[0];
 
         // Arrow labels: each case produces its own value, so no break/fall-through.
         return switch (command) {
-            case "list" -> new Command(CommandType.LIST, NO_INDEX, input);
-            case "undo" -> new Command(CommandType.UNDO, NO_INDEX, input);
-            case "mark" -> new Command(CommandType.MARK, parseTaskIndex(parts), input);
-            case "unmark" -> new Command(CommandType.UNMARK, parseTaskIndex(parts), input);
-            case "delete" -> new Command(CommandType.DELETE, parseTaskIndex(parts), input);
+            case "list" -> new Command(CommandType.LIST, NO_INDEX, cleaned);
+            case "undo" -> new Command(CommandType.UNDO, NO_INDEX, cleaned);
+            case "mark" -> new Command(CommandType.MARK, parseTaskIndex(parts), cleaned);
+            case "unmark" -> new Command(CommandType.UNMARK, parseTaskIndex(parts), cleaned);
+            case "delete" -> new Command(CommandType.DELETE, parseTaskIndex(parts), cleaned);
             case "find" -> {
                 // Only the shape is checked here; the keyword itself is read back out of
                 // rawInput, the same way ADD leaves the details to Todo, Deadline and Event.
                 if (parts.length < 2) {
                     throw new FoodInputException("find needs a keyword, chef. What am I looking for?");
                 }
-                yield new Command(CommandType.FIND, NO_INDEX, input);
+                yield new Command(CommandType.FIND, NO_INDEX, cleaned);
             }
-            case "todo", "deadline", "event" -> new Command(CommandType.ADD, NO_INDEX, input);
+            case "todo", "deadline", "event" -> new Command(CommandType.ADD, NO_INDEX, cleaned);
             default -> throw new FoodInputException(
                     "That's not on my menu, chef. I know: todo, deadline, event, list, find,\n"
                     + "mark, unmark, delete and undo.");

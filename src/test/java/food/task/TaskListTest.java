@@ -1,6 +1,7 @@
 package food.task;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
@@ -62,6 +63,33 @@ public class TaskListTest {
     @Test
     public void find_emptyList_emptyListReturned() {
         assertTrue(new TaskList().find("book").isEmpty());
+    }
+
+    // --- add ----------------------------------------------------------------
+
+    @Test
+    public void add_identicalTask_exceptionThrown() throws FoodInputException {
+        TaskList tasks = this.buildSampleList();
+
+        assertThrows(FoodInputException.class, () -> tasks.add(new Todo("todo read book")));
+        assertEquals(3, tasks.size());
+    }
+
+    @Test
+    public void add_identicalTaskAlreadyDone_exceptionThrown() throws FoodInputException {
+        // Being done does not make it a different task.
+        TaskList tasks = this.buildSampleList();
+        tasks.get(0, "mark").markComplete();
+
+        assertThrows(FoodInputException.class, () -> tasks.add(new Todo("todo read book")));
+    }
+
+    @Test
+    public void add_sameDescriptionDifferentKind_added() throws FoodInputException {
+        // A todo and a deadline with the same words are different tasks.
+        TaskList tasks = this.buildSampleList();
+        tasks.add(new Deadline("deadline read book /by 2026-10-01"));
+        assertEquals(4, tasks.size());
     }
 
     // --- snapshot / restore -------------------------------------------------

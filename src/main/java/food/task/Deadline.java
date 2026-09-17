@@ -22,10 +22,12 @@ public class Deadline extends Task {
      * Creates a Deadline from the line the user typed.
      *
      * @param task the full line, which must look like "deadline &lt;description&gt; /by &lt;date&gt;".
-     * @throws FoodInputException if the line does not match that shape, the description is blank,
-     *                            or the date is not a real date in yyyy-mm-dd form.
+     * @throws FoodInputException if the line does not match that shape, gives /by twice, the
+     *                            description is blank, or the date is not a real date in
+     *                            yyyy-mm-dd form.
      */
     public Deadline(String task) throws FoodInputException {
+        rejectRepeated(task, "/by");
         Pattern p = Pattern.compile("^deadline (?<name>.+?) /by (?<by>.+?)$");
         Matcher m = p.matcher(task);
         if (!m.matches()) {

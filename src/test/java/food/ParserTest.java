@@ -33,10 +33,10 @@ public class ParserTest {
     }
 
     @Test
-    public void parse_exitPhraseWithTrailingSpace_exceptionThrown() {
-        // The exit check happens before trimming, so the padded phrase falls through to the
-        // command switch, where "LET" is not a known command word.
-        assertThrows(FoodInputException.class, () -> Parser.parse("LET ME OUT! "));
+    public void parse_exitPhraseWithTrailingSpace_exitCommandReturned() throws FoodInputException {
+        // Surrounding spaces are stripped before the exit phrase is checked.
+        assertEquals(new Command(CommandType.EXIT, Parser.NO_INDEX, "LET ME OUT!"),
+                Parser.parse("LET ME OUT! "));
     }
 
     // --- list ---------------------------------------------------------------
@@ -49,8 +49,8 @@ public class ParserTest {
 
     @Test
     public void parse_listCommandWithSurroundingSpaces_listCommandReturned() throws FoodInputException {
-        // The input is trimmed before splitting, but rawInput keeps the untouched line.
-        assertEquals(new Command(CommandType.LIST, Parser.NO_INDEX, "  list  "),
+        // Surrounding spaces are removed, and rawInput carries the cleaned line.
+        assertEquals(new Command(CommandType.LIST, Parser.NO_INDEX, "list"),
                 Parser.parse("  list  "));
     }
 
@@ -98,10 +98,9 @@ public class ParserTest {
     }
 
     @Test
-    public void parse_markWithDoubleSpace_exceptionThrown() {
-        // Splitting on a single space turns "mark  2" into three parts, one of them empty,
-        // so it is rejected as having the wrong number of arguments.
-        assertThrows(FoodInputException.class, () -> Parser.parse("mark  2"));
+    public void parse_markWithDoubleSpace_indexParsedAnyway() throws FoodInputException {
+        // Repeated spaces are collapsed to one before splitting, so "mark  2" is just "mark 2".
+        assertEquals(new Command(CommandType.MARK, 1, "mark 2"), Parser.parse("mark  2"));
     }
 
     @Test
@@ -117,6 +116,12 @@ public class ParserTest {
     }
 
     // --- todo / deadline / event --------------------------------------------
+
+    @Test
+    public void parse_todoWithMessySpacing_rawInputCleaned() throws FoodInputException {
+        assertEquals(new Command(CommandType.ADD, Parser.NO_INDEX, "todo read book"),
+                Parser.parse("  todo   read  book "));
+    }
 
     @Test
     public void parse_todoCommand_addCommandWithRawInputReturned() throws FoodInputException {

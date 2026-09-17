@@ -44,8 +44,13 @@ public class TaskList {
      * Adds a task to the end of the list.
      *
      * @param task the task to add; no index check is needed because appending is always valid.
+     * @throws FoodInputException if an identical task is already on the list.
      */
-    public void add(Task task) {
+    public void add(Task task) throws FoodInputException {
+        boolean isDuplicate = this.tasks.stream().anyMatch(existing -> existing.isSameAs(task));
+        if (isDuplicate) {
+            throw new FoodInputException("That order is already on the board, chef.");
+        }
         this.tasks.add(task);
     }
 
